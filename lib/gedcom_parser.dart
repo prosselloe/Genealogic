@@ -3,110 +3,238 @@ import 'dart:developer' as developer;
 class GedcomParser {
   final Map<String, Map<String, dynamic>> individuals = {};
   final List<Map<String, dynamic>> families = [];
+  final Set<String> uniquePlaces = <String>{};
 
   Future<void> parse(String gedcomData) async {
     developer.log('Starting GEDCOM parsing...', name: 'GedcomParser.parse');
 
     final lines = gedcomData.split('\n');
-    final processedLines = <String>[];
-
-    for (int i = 0; i < lines.length; i++) {
-        var currentLine = lines[i].trim();
-        if (currentLine.isEmpty) continue;
-
-        while (i + 1 < lines.length) {
-            final nextLine = lines[i + 1].trim();
-            final parts = nextLine.split(' ');
-            if (parts.length > 1) {
-                if (parts[1] == 'CONC') {
-                    // Corrected to use interpolation
-                    currentLine += ' ${parts.sublist(2).join(' ')}';
-                    i++; 
-                } else if (parts[1] == 'CONT') {
-                    // Corrected to use interpolation
-                    currentLine += '\n${parts.sublist(2).join(' ')}';
-                    i++;
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-        processedLines.add(currentLine);
-    }
-
     Map<String, dynamic>? currentRecord;
-    String? lastTag;
+    Map<String, dynamic>? currentEvent;
+    String? currentEventTag;
+    Map<String, dynamic>? currentFamc;
 
-    for (var line in processedLines) {
+    for (var line in lines) {
+      line = line.trim();
+      if (line.isEmpty) continue;
+
       final parts = line.split(' ');
-      if (parts.length < 2) continue;
-
       final level = int.tryParse(parts[0]);
       if (level == null) continue;
 
-      final tagOrId = parts[1];
+      final tag = parts.length > 1 ? parts[1] : '';
+      final value = parts.length > 2 ? parts.sublist(2).join(' ') : '';
 
       if (level == 0) {
         if (currentRecord != null) {
-          if (currentRecord.containsKey('isFamily')) {
-            families.add(currentRecord..remove('isFamily'));
-          } else {
-            individuals[currentRecord['id']] = currentRecord;
-          }
+          _saveRecord(currentRecord);
         }
 
-        if (parts.length > 2 && (parts[2] == 'INDI' || parts[2] == 'FAM')) {
-            final type = parts[2];
-            final id = tagOrId;
-            currentRecord = {'id': id};
-            if (type == 'FAM') {
-                currentRecord['isFamily'] = true;
-            }
-        } else {
+        if (tag.startsWith('@') && parts.length > 2) {
+          final recordType = parts[2];
+          if (recordType == 'INDI' || recordType == 'FAM') {
+            currentRecord = {
+              'id': tag.replaceAll('@', ''),
+              'type': recordType,
+              'notes': <String>[],
+              'sour': <String>[],
+              'photos': <Map<String, dynamic>>[],
+              'fams': <String>[],
+            };
+          } else {
             currentRecord = null;
-        }
-      } else if (currentRecord != null) {
-          final tag = tagOrId;
-          final value = parts.sublist(2).join(' ');
-          
-          if (level == 1) {
-              lastTag = tag;
-              if (tag == 'HUSB' || tag == 'WIFE' || tag == 'CHIL') {
-                  if (!currentRecord.containsKey(tag.toLowerCase())) {
-                      currentRecord[tag.toLowerCase()] = value;
-                  } else {
-                      if (currentRecord[tag.toLowerCase()] is List) {
-                          currentRecord[tag.toLowerCase()].add(value);
-                      } else {
-                          currentRecord[tag.toLowerCase()] = [currentRecord[tag.toLowerCase()], value];
-                      }
-                  }
-              } else if (tag == 'BIRT' || tag == 'DEAT') {
-                  currentRecord[tag] = {};
-              } else {
-                  currentRecord[tag.toLowerCase()] = value.replaceAll('/', '');
-              }
-          } else if (level == 2 && lastTag != null) {
-              if (currentRecord.containsKey(lastTag) && currentRecord[lastTag] is Map) {
-                  (currentRecord[lastTag] as Map)[tag.toLowerCase()] = value;
-              }
-              if (lastTag == 'OBJE' && tag == 'FILE' && Uri.tryParse(value)?.isAbsolute == true) {
-                  currentRecord['photo'] = value;
-              }
           }
+        } else {
+          currentRecord = null;
+        }
+        currentEvent = null;
+        currentEventTag = null;
+        currentFamc = null;
+      } else if (currentRecord != null) {
+        if (level == 1) {
+          currentFamc = null;
+
+          switch (tag) {
+            case 'NAME':
+              final nameParts = value.split('/');
+              if (nameParts.length >= 2) {
+                currentRecord['givn'] = nameParts[0].trim();
+                currentRecord['surn'] = nameParts[1].trim();
+                currentRecord['name'] =
+                    '${currentRecord['givn']} ${currentRecord['surn']}'.trim();
+              } else {
+                currentRecord['name'] = value.replaceAll('/', '').trim();
+              }
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            case 'HUSB':
+            case 'WIFE':
+            case 'CHIL':
+              final key = '${tag.toLowerCase()}s';
+              if (!currentRecord.containsKey(key)) {
+                currentRecord[key] = <String>[];
+              }
+              (currentRecord[key] as List<String>)
+                  .add(value.replaceAll('@', ''));
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            case 'FAMC':
+              currentFamc = {'id': value.replaceAll('@', '')};
+              currentRecord['famc'] = currentFamc;
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            case 'FAMS':
+              (currentRecord['fams'] as List<String>)
+                  .add(value.replaceAll('@', ''));
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            case 'BIRT':
+            case 'DEAT':
+            case 'MARR':
+            case 'ADOP':
+            case 'BAPM':
+            case 'BURI':
+            case 'CENS':
+            case 'CHR':
+            case 'CONF':
+            case 'CREM':
+            case 'DIV':
+            case 'EMIG':
+            case 'ENGA':
+            case 'GRAD':
+            case 'IMMI':
+            case 'NATU':
+            case 'ORDN':
+            case 'PROB':
+            case 'RETI':
+            case 'WILL':
+              currentEventTag = tag.toLowerCase();
+              currentEvent = <String, dynamic>{};
+               if (value.isNotEmpty) {
+                currentEvent['value'] = value;
+              }
+              currentRecord[currentEventTag] = currentEvent;
+              break;
+            case 'OBJE':
+              currentEventTag = 'obje';
+              currentEvent = <String, dynamic>{};
+              currentRecord['photos'] =
+                  (currentRecord['photos'] as List)..add(currentEvent);
+              break;
+            case 'SOUR':
+              (currentRecord['sour'] as List<String>).add(value);
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            case 'NOTE':
+              (currentRecord['notes'] as List<String>).add(value);
+              currentEvent = null;
+              currentEventTag = null;
+              break;
+            default:
+              currentRecord[tag.toLowerCase()] = value;
+              break;
+          }
+        } else if (level == 2) {
+          if (currentEvent != null) {
+            if (tag == 'PLAC') {
+              final placeValue = value.trim();
+              currentEvent['plac'] = placeValue;
+              if (placeValue.isNotEmpty) uniquePlaces.add(placeValue);
+            } else {
+              currentEvent[tag.toLowerCase().replaceAll('_', '')] = value;
+            }
+          } else if (currentFamc != null && tag == 'PEDI') {
+            currentFamc[tag.toLowerCase()] = value;
+          }
+        }
       }
     }
 
     if (currentRecord != null) {
-      if (currentRecord.containsKey('isFamily')) {
-        families.add(currentRecord..remove('isFamily'));
-      } else {
-        individuals[currentRecord['id']] = currentRecord;
-      }
+      _saveRecord(currentRecord);
     }
 
-    developer.log('Finished parsing. Found ${individuals.length} individuals and ${families.length} families.', name: 'GedcomParser.parse');
+    _crossReferenceChildren();
+    _updateFamilyNames();
+
+    developer.log(
+        'Finished parsing. Found ${individuals.length} individuals and ${families.length} families.',
+        name: 'GedcomParser.parse');
+  }
+
+  void _saveRecord(Map<String, dynamic> record) {
+    if (record['type'] == 'INDI') {
+      final famc = record['famc'];
+      if (famc is Map) {
+        record['famc'] = famc['id'];
+        if (famc.containsKey('pedi')) {
+          record['pedi'] = famc['pedi'];
+        }
+      }
+      individuals[record['id'] as String] = record;
+    } else if (record['type'] == 'FAM') {
+      families.add(record);
+    }
+  }
+
+  void _crossReferenceChildren() {
+    final famcMap = <String, List<String>>{};
+    individuals.forEach((id, indi) {
+      final famcId = indi['famc'];
+      if (famcId != null && famcId is String) {
+        if (!famcMap.containsKey(famcId)) {
+          famcMap[famcId] = [];
+        }
+        famcMap[famcId]!.add(id);
+      }
+    });
+
+    for (var family in families) {
+      final famId = family['id'] as String;
+      if (famcMap.containsKey(famId)) {
+        final childrenFromFamc = famcMap[famId]!;
+        if (!family.containsKey('chils')) {
+          family['chils'] = <String>[];
+        }
+        final existingChildren = family['chils'] as List<String>;
+        for (var childId in childrenFromFamc) {
+          if (!existingChildren.contains(childId)) {
+            existingChildren.add(childId);
+          }
+        }
+      }
+    }
+  }
+
+  void _updateFamilyNames() {
+    for (var family in families) {
+      final husbandIds = family['husbs'] as List<String>? ?? [];
+      final wifeIds = family['wifes'] as List<String>? ?? [];
+
+      String familyName = '';
+      if (husbandIds.isNotEmpty) {
+        final husband = individuals[husbandIds.first];
+        if (husband != null && husband['surn'] != null) {
+          final surnames = (husband['surn'] as String).split(' ');
+          familyName += surnames.isNotEmpty ? surnames.first : '';
+        }
+      }
+      if (wifeIds.isNotEmpty) {
+        final wife = individuals[wifeIds.first];
+        if (wife != null && wife['surn'] != null) {
+          if (familyName.isNotEmpty) {
+            familyName += ' - ';
+          }
+          final surnames = (wife['surn'] as String).split(' ');
+          familyName += surnames.isNotEmpty ? surnames.first : '';
+        }
+      }
+      family['name'] = familyName.isNotEmpty ? familyName : 'Family';
+    }
   }
 }

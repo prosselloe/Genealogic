@@ -1,4 +1,4 @@
-import 'package:myapp/models/person.dart';
+import 'package:genealogic/models/person.dart';
 
 class Family {
   final String id;
