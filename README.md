@@ -184,7 +184,7 @@ Aquesta aplicació permet als usuaris explorar la seva història familiar a trav
 <tr style="height: 75.75pt;">
 <td style="width: 148.55pt; border: solid windowtext 1.0pt; border-top: none; padding: 0cm 3.5pt 0cm 3.5pt; height: 75.75pt;" width="198"><img src="https://heraldicahispana.com/images/png/Tous.png" /></td>
 <td style="width: 145.5pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; padding: 0cm 3.5pt 0cm 3.5pt; height: 75.75pt;" width="194"><img src="https://heraldicahispana.com/images/png/Vicens.png" /></td>
-<td style="width: 149.35pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; padding: 0cm 3.5pt 0cm 3.5pt; height: 75.75pt;" width="199"><img src="https://heraldicahispana.com/images/png/Vidal.png" /> /></td>
+<td style="width: 149.35pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; padding: 0cm 3.5pt 0cm 3.5pt; height: 75.75pt;" width="199"><img src="https://heraldicahispana.com/images/png/Vidal.png" /></td>
 </tr>
 </tbody>
 </table>
