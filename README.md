@@ -1,4 +1,4 @@
-# Genealogic
+# Genealogic Balear
 
 Una aplicació de Flutter dissenyada per analitzar, visualitzar i navegar per dades genealògiques d'un fitxer GEDCOM.
 
