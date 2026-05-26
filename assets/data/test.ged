@@ -1,0 +1,185 @@
+0 HEAD
+1 SOUR GenealogicBalear
+1 CHAR UTF-8
+0 @I15@ INDI
+1 NAME Magdalena Macia /Abraham Corró/
+1 SEX F
+1 BIRT
+2 DATE 04 AUG 1683
+1 FAMC @F5@
+0 @I16@ INDI
+1 NAME Guillem /Abraham Puig/
+1 SEX M
+1 NOTE Viu el 1697
+1 FAMC @F6@
+0 @I17@ INDI
+1 NAME Joan /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 08 JUL 1666
+1 NOTE Viu el 1697
+1 FAMC @F6@
+0 @I18@ INDI
+1 NAME Caterina /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 20 JUL 1661
+1 FAMC @F6@
+0 @I19@ INDI
+1 NAME Coloma /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 05 FEB 1664
+1 NOTE Viu el 1697 (h)
+1 FAMC @F6@
+0 @I20@ INDI
+1 NAME Margarita /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 25 MAR 1669
+1 NOTE + 1697, 21-9 (28), fadrina
+1 FAMC @F6@
+0 @I21@ INDI
+1 NAME Francesc /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 18 APR 1672
+1 FAMC @F6@
+0 @I22@ INDI
+1 NAME Sebastià /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 02 FEB 1675
+1 NOTE Viu el 1697
+1 FAMC @F6@
+0 @I1@ INDI
+1 NAME ABRAHAM //
+1 SEX M
+1 FAMS @F4@
+0 @I2@ INDI
+1 NAME Cosme /Abraham/
+1 SEX M
+1 FAMC @F4@
+1 FAMS @F5@
+0 @I3@ INDI
+1 NAME Antonina /Corró/
+1 SEX F
+1 FAMS @F5@
+0 @I4@ INDI
+1 NAME Francesc /Abraham/
+1 SEX M
+1 BIRT
+2 DATE BEF 1627
+1 FAMC @F7@
+1 FAMS @F6@
+0 @I5@ INDI
+1 NAME Guillem /Abraham/
+1 SEX M
+1 FAMC @F4@
+1 FAMS @F7@
+0 @I6@ INDI
+1 NAME Caterina /Adrover/
+1 SEX F
+1 FAMS @F7@
+0 @I7@ INDI
+1 NAME Margarita /Puig/
+1 SEX F
+1 BIRT
+2 DATE BEF 1636
+1 NOTE T. 13-10-1697, vda (O-280)
+1 FAMC @F8@
+1 FAMS @F6@
+0 @I8@ INDI
+1 NAME Joan /Puig/
+1 SEX M
+1 FAMS @F8@
+0 @I9@ INDI
+1 NAME Coloma /Binimelis/
+1 SEX F
+1 FAMS @F8@
+0 @I10@ INDI
+1 NAME Jaume /Abraham/
+1 SEX M
+1 BIRT
+2 DATE BEF 1649
+1 DEAT
+2 DATE 27 MAY 1716
+1 NOTE T. 28-3-1690 (O-279). Fa usufructuària la dona i hereves les ànimes de la família i les del Purgatori.
+1 FAMC @F9@
+1 FAMS @F10@
+0 @I11@ INDI
+1 NAME Sebastià /Abraham/
+1 SEX M
+1 FAMC @F4@
+1 FAMS @F9@
+0 @I12@ INDI
+1 NAME Joana /Obrador/
+1 SEX F
+1 FAMS @F9@
+0 @I13@ INDI
+1 NAME Paula /Soler/
+1 SEX F
+1 BIRT
+2 DATE BEF 1655
+1 NOTE vda de Sebastià Vaquer. T- 28-3-1690 (O-279)
+1 FAMC @F11@
+1 FAMS @F10@
+0 @I14@ INDI
+1 NAME Jordi /Soler/
+1 SEX M
+1 FAMS @F11@
+0 @F1@ FAM
+1 HUSB @I1@
+1 CHIL @I2@
+0 @F2@ FAM
+1 HUSB @I1@
+1 CHIL @I4@
+0 @F3@ FAM
+1 HUSB @I1@
+1 CHIL @I10@
+0 @F4@ FAM
+1 HUSB @I1@
+1 CHIL @I2@
+1 CHIL @I5@
+1 CHIL @I11@
+0 @F5@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 MARR
+2 DATE 12 JUN 1667
+2 PLAC a Sta. Creu
+1 CHIL @I15@
+0 @F6@ FAM
+1 HUSB @I4@
+1 WIFE @I7@
+1 MARR
+2 DATE 17 DEC 1656
+1 CHIL @I16@
+1 CHIL @I17@
+1 CHIL @I18@
+1 CHIL @I19@
+1 CHIL @I20@
+1 CHIL @I21@
+1 CHIL @I22@
+0 @F7@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I4@
+0 @F8@ FAM
+1 HUSB @I8@
+1 WIFE @I9@
+1 CHIL @I7@
+0 @F9@ FAM
+1 HUSB @I11@
+1 WIFE @I12@
+1 CHIL @I10@
+0 @F10@ FAM
+1 HUSB @I10@
+1 WIFE @I13@
+1 MARR
+2 DATE 16 MAY 1682
+0 @F11@ FAM
+1 HUSB @I14@
+1 WIFE @I15@
+1 CHIL @I13@
+0 TRLR
