@@ -1,0 +1,1734 @@
+0 HEAD
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 LANG Catalan
+1 SOUR FELANITX_EXTRACT
+2 NAME Felanitx Family Data
+1 DEST MYHERITAGE
+1 DATE 24 MAY 2024
+1 FILE Exported from myheritage.ged for Felanitx
+0 @I1@ INDI
+1 NAME Cosme /Abraham/
+1 SEX M
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Antonina /Corró/
+1 SEX F
+1 FAMS @F1@
+0 @I3@ INDI
+1 NAME Magdalena Macia /Abraham Corró/
+1 SEX F
+1 BIRT
+2 DATE 4 AUG 1683
+1 FAMC @F1@
+0 @I4@ INDI
+1 NAME Francesc /Abraham Adrover/
+1 SEX M
+1 FAMC @F5@
+1 FAMS @F2@
+0 @I5@ INDI
+1 NAME Margarita /Puig Binimelis/
+1 SEX F
+1 DEAT
+2 DATE 13 OCT 1697
+1 NOTE T. 13-10-1697, vda (O-280)
+1 FAMC @F6@
+1 FAMS @F2@
+0 @I6@ INDI
+1 NAME Guillem /Abraham Puig/
+1 SEX M
+1 FAMC @F2@
+0 @I7@ INDI
+1 NAME Joan /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 8 JUL 1666
+1 FAMC @F2@
+0 @I8@ INDI
+1 NAME Caterina /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 20 JUL 1661
+1 FAMC @F2@
+0 @I9@ INDI
+1 NAME Coloma /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 5 FEB 1664
+1 FAMC @F2@
+0 @I10@ INDI
+1 NAME Margarita /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 25 MAR 1669
+1 DEAT
+2 DATE 21 SEP 1697
+1 FAMC @F2@
+0 @I11@ INDI
+1 NAME Francesc /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 18 APR 1672
+1 FAMC @F2@
+0 @I12@ INDI
+1 NAME Sebastià /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 2 FEB 1675
+1 FAMC @F2@
+0 @I13@ INDI
+1 NAME Caterina /Abraham Unknown/
+1 SEX F
+1 BIRT
+2 DATE 16 AUG 1677
+1 FAMC @F7@
+0 @I14@ INDI
+1 NAME Jaume /Abraham Obrador/
+1 SEX M
+1 DEAT
+2 DATE 27 MAY 1716
+1 NOTE T. 28-3-1690 (O-279). Fa usufructuària la dona i hereves les ànimes de la família i les del Purgatori
+1 FAMC @F3@
+1 FAMS @F4@
+0 @I15@ INDI
+1 NAME Paula /Soler Barceló/
+1 SEX F
+1 NOTE T- 28-3-1690 (O-279)
+1 FAMC @F8@
+1 FAMS @F4@
+0 @I16@ INDI
+1 NAME Sebastià /Abraham Obrador/
+1 SEX M
+1 FAMC @F3@
+1 FAMS @F9@
+0 @I17@ INDI
+1 NAME Joana /Maymó Nicolau/
+1 SEX F
+1 FAMC @F10@
+1 FAMS @F9@
+0 @I18@ INDI
+1 NAME Joana /Abraham Maymó/
+1 SEX F
+1 BIRT
+2 DATE 20 FEB 1679
+1 FAMC @F9@
+0 @I19@ INDI
+1 NAME Sebastià /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 16 JAN 1682
+1 FAMC @F9@
+0 @I20@ INDI
+1 NAME Miquel Joan /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 18 NOV 1684
+1 FAMC @F9@
+0 @I21@ INDI
+1 NAME Sebastià /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 7 OCT 1687
+1 FAMC @F9@
+0 @I22@ INDI
+1 NAME Francesc Isidoro /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 20 JUN 1690
+1 FAMC @F9@
+0 @I23@ INDI
+1 NAME Sebastiana Maria /Abraham Maymó/
+1 SEX F
+1 BIRT
+2 DATE 1 JUN 1693
+1 FAMC @F9@
+0 @I24@ INDI
+1 NAME Jaume Isidro /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 21 JUN 1696
+1 FAMC @F9@
+0 @I25@ INDI
+1 NAME Cristòfol /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 7 MAY 1699
+1 FAMC @F9@
+0 @I26@ INDI
+1 NAME Guillem /Abraham/
+1 SEX M
+1 FAMS @F5@
+0 @I27@ INDI
+1 NAME Caterina /Adrover/
+1 SEX F
+1 FAMS @F5@
+0 @I28@ INDI
+1 NAME Joan /Puig/
+1 SEX M
+1 FAMS @F6@
+0 @I29@ INDI
+1 NAME Coloma /Binimelis/
+1 SEX F
+1 FAMS @F6@
+0 @I30@ INDI
+1 NAME Francina /Unknown/
+1 SEX F
+1 FAMS @F7@
+0 @I31@ INDI
+1 NAME Sebastià /Abraham/
+1 SEX M
+1 FAMS @F3@
+0 @I32@ INDI
+1 NAME Joana /Obrador/
+1 SEX F
+1 FAMS @F3@
+0 @I33@ INDI
+1 NAME Jordi /Soler/
+1 SEX M
+1 FAMS @F8@
+0 @I34@ INDI
+1 NAME Caterina /Barceló/
+1 SEX F
+1 FAMS @F8@
+0 @I35@ INDI
+1 NAME Miquel Joan /Maymó/
+1 SEX M
+1 FAMS @F10@
+0 @I36@ INDI
+1 NAME Sebastiana /Nicolau/
+1 SEX F
+1 FAMS @F10@
+0 @I37@ INDI
+1 NAME Miquel /Adrover Maimó/
+1 SEX M
+1 FAMC @F11@
+1 FAMS @F12@
+0 @I38@ INDI
+1 NAME Joana /Veny Puigserver/
+1 SEX F
+1 FAMC @F13@
+1 FAMS @F12@
+0 @I39@ INDI
+1 NAME Pere /Adrover Veny/
+1 SEX M
+1 BIRT
+2 DATE 30 JAN 1660
+1 FAMC @F12@
+0 @I40@ INDI
+1 NAME Aina /Adrover Veny/
+1 SEX F
+1 BIRT
+2 DATE 1 APR 1663
+1 FAMC @F12@
+0 @I41@ INDI
+1 NAME Joana /Adrover Veny/
+1 SEX F
+1 BIRT
+2 DATE 27 MAR 1665
+1 FAMC @F12@
+0 @I42@ INDI
+1 NAME Pere /Adrover Maimó/
+1 SEX M
+1 FAMC @F11@
+1 FAMS @F14@
+1 FAMS @F15@
+0 @I43@ INDI
+1 NAME Joana /Obrador Prohens/
+1 SEX F
+1 FAMC @F16@
+1 FAMS @F14@
+0 @I44@ INDI
+1 NAME Pere /Adrover Obrador/
+1 SEX M
+1 BIRT
+2 DATE 10 JAN 1652
+1 FAMC @F14@
+0 @I45@ INDI
+1 NAME Aina /Adrover Obrador/
+1 SEX F
+1 BIRT
+2 DATE 27 JAN 1655
+1 FAMC @F14@
+0 @I46@ INDI
+1 NAME Gabriel /Adrover Obrador/
+1 SEX M
+1 BIRT
+2 DATE 16 JAN 1657
+1 FAMC @F14@
+0 @I47@ INDI
+1 NAME Francina /Adrover Obrador/
+1 SEX F
+1 BIRT
+2 DATE 12 JAN 1660
+1 DEAT
+2 DATE 10 JUN 1663
+1 FAMC @F14@
+0 @I48@ INDI
+1 NAME Aina /Adrover Obrador/
+1 SEX F
+1 BIRT
+2 DATE 25 MAY 1664
+1 NOTE casada amb Pere Brustenga
+1 FAMC @F14@
+0 @I49@ INDI
+1 NAME Coloma /Barceló Mesquida/
+1 SEX F
+1 NOTE T. 3-8-1723 (Not. G. Julià)
+1 FAMC @F17@
+1 FAMS @F15@
+0 @I50@ INDI
+1 NAME Jaume /Adrover Barceló/
+1 SEX M
+1 BIRT
+2 DATE 27 MAY 1674
+1 FAMC @F15@
+0 @I51@ INDI
+1 NAME Joana /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 5 AUG 1677
+1 FAMC @F15@
+0 @I52@ INDI
+1 NAME Antònia /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 20 JAN 1681
+1 FAMC @F15@
+0 @I53@ INDI
+1 NAME Margalida /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 19 FEB 1683
+1 FAMC @F15@
+0 @I54@ INDI
+1 NAME Coloma /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 23 SEP 1685
+1 FAMC @F15@
+0 @I55@ INDI
+1 NAME Pere /Adrover Barceló/
+1 SEX M
+1 BIRT
+2 DATE 12 OCT 1688
+1 FAMC @F15@
+0 @I56@ INDI
+1 NAME Càndida /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 3 OCT 1694
+1 FAMC @F15@
+0 @I57@ INDI
+1 NAME Pere /Adrover/
+1 SEX M
+1 FAMS @F11@
+0 @I58@ INDI
+1 NAME Aina /Maimó/
+1 SEX F
+1 FAMS @F11@
+0 @I59@ INDI
+1 NAME Bartomeu /Veny/
+1 SEX M
+1 FAMS @F13@
+0 @I60@ INDI
+1 NAME Joana /Puigserver/
+1 SEX F
+1 FAMS @F13@
+0 @I61@ INDI
+1 NAME Gabriel /Obrador/
+1 SEX M
+1 FAMS @F16@
+0 @I62@ INDI
+1 NAME Francina /Prohens/
+1 SEX F
+1 FAMS @F16@
+0 @I63@ INDI
+1 NAME Jaume /Barceló/
+1 SEX M
+1 FAMS @F17@
+0 @I64@ INDI
+1 NAME Antònia /Mesquida/
+1 SEX F
+1 FAMS @F17@
+0 @I65@ INDI
+1 NAME Joan /Abrines/
+1 SEX M
+1 FAMS @F18@
+1 FAMS @F19@
+0 @I66@ INDI
+1 NAME Joana /Mesquida/
+1 SEX F
+1 FAMS @F18@
+0 @I67@ INDI
+1 NAME Joan Ramon /Abrines Mesquida/
+1 SEX M
+1 BIRT
+2 DATE 7 APR 1667
+1 FAMC @F18@
+0 @I68@ INDI
+1 NAME Caterina /Abrines Mesquida/
+1 SEX F
+1 BIRT
+2 DATE 18 FEB 1680
+1 FAMC @F18@
+0 @I69@ INDI
+1 NAME Margarita /Mesquida/
+1 SEX F
+1 FAMS @F19@
+0 @I70@ INDI
+1 NAME Anna /Abrines Mesquida/
+1 SEX F
+1 BIRT
+2 DATE 22 MAR 1662
+1 FAMC @F19@
+0 @I71@ INDI
+1 NAME Bartomeu /Adrover/
+1 SEX M
+1 FAMS @F20@
+0 @I72@ INDI
+1 NAME Joana /Rigo/
+1 SEX F
+1 FAMS @F20@
+0 @I73@ INDI
+1 NAME Aleix /Adrover Rigo/
+1 SEX M
+1 OCCU picapedrer
+1 FAMC @F20@
+1 FAMS @F21@
+0 @I74@ INDI
+1 NAME Antoni /Juan/
+1 SEX M
+1 OCCU fuster
+1 FAMS @F22@
+0 @I75@ INDI
+1 NAME Jaumeta /Sagrera/
+1 SEX F
+1 FAMS @F22@
+0 @I76@ INDI
+1 NAME Francina /Juan Padrines/
+1 SEX F
+1 NOTE T. 10-4-1697 (B-934). Codicil 21-11-1706. El 1776 el nét Bartomeu paga el testament
+1 FAMC @F22@
+1 FAMS @F21@
+0 @I77@ INDI
+1 NAME Bartomeu /Adrover Juan/
+1 SEX M
+1 BIRT
+2 DATE 21 APR 1697
+1 FAMC @F21@
+0 @I78@ INDI
+1 NAME Bartomeu /Adrover Juan/
+1 SEX M
+1 BIRT
+2 DATE 16 JAN 1699
+1 FAMC @F21@
+0 @I79@ INDI
+1 NAME Joana Maria /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 23 JAN 1703
+1 FAMC @F21@
+0 @I80@ INDI
+1 NAME Antoni Ramon /Adrover Juan/
+1 SEX M
+1 BIRT
+2 DATE 17 DEC 1704
+1 FAMC @F21@
+0 @I81@ INDI
+1 NAME Jaumeta Maria /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 17 DEC 1704
+1 FAMC @F21@
+0 @I82@ INDI
+1 NAME Andreu /Adrover/
+1 SEX M
+1 FAMS @F23@
+0 @I83@ INDI
+1 NAME Joana /Prohensal/
+1 SEX F
+1 FAMS @F23@
+0 @I84@ INDI
+1 NAME Andreu /Adrover Prohensal/
+1 SEX M
+1 OCCU picapedrer
+1 NOTE T. 1674 (N-105)
+1 FAMC @F23@
+1 FAMS @F24@
+0 @I85@ INDI
+1 NAME Joan /Antich/
+1 SEX M
+1 FAMS @F25@
+0 @I86@ INDI
+1 NAME Margarita /Montserrat/
+1 SEX F
+1 FAMS @F25@
+0 @I87@ INDI
+1 NAME Joana /Antich Montserrat/
+1 SEX F
+1 FAMC @F25@
+1 FAMS @F24@
+0 @I88@ INDI
+1 NAME Joana /Adrover Antich/
+1 SEX F
+1 BIRT
+2 DATE 20 OCT 1678
+1 FAMC @F24@
+0 @I89@ INDI
+1 NAME Andreu /Adrover Antich/
+1 SEX M
+1 BIRT
+2 DATE 15 AUG 1682
+1 FAMC @F24@
+0 @I90@ INDI
+1 NAME Joana /Adrover Antich/
+1 SEX F
+1 BIRT
+2 DATE 7 JUN 1685
+1 FAMC @F24@
+0 @I91@ INDI
+1 NAME Joan /Adrover Antich/
+1 SEX M
+1 BIRT
+2 DATE 28 SEP 1687
+1 FAMC @F24@
+0 @I92@ INDI
+1 NAME Joan /Adrover Antich/
+1 SEX M
+1 BIRT
+2 DATE 4 JUN 1690
+1 FAMC @F24@
+0 @I93@ INDI
+1 NAME Margarita /Adrover Antich/
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1692
+1 FAMC @F24@
+0 @I94@ INDI
+1 NAME Joan /Adrover Antich/
+1 SEX M
+1 BIRT
+2 DATE 12 JUL 1694
+1 FAMC @F24@
+0 @I95@ INDI
+1 NAME Bartomeu /Adrover Antich/
+1 SEX M
+1 BIRT
+2 DATE 23 APR 1697
+1 FAMC @F24@
+0 @I96@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 FAMS @F26@
+0 @I97@ INDI
+1 NAME Antonina /Dalmau/
+1 SEX F
+1 FAMS @F26@
+0 @I98@ INDI
+1 NAME Andreu /Adrover Dalmau/
+1 SEX M
+1 NOTE T. 27-1-1697 (B-934). + 25-4-1697 (58). Obres pies 15 ll.
+1 FAMC @F26@
+1 FAMS @F27@
+1 FAMS @F29@
+1 FAMS @F33@
+0 @I99@ INDI
+1 NAME Joan /Barceló/
+1 SEX M
+1 FAMS @F28@
+0 @I100@ INDI
+1 NAME Miquela /Artigues/
+1 SEX F
+1 FAMS @F28@
+0 @I101@ INDI
+1 NAME Joana /Barceló Artigues/
+1 SEX F
+1 FAMC @F28@
+1 FAMS @F27@
+0 @I102@ INDI
+1 NAME Antonina /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 17 JAN 1661
+1 FAMC @F27@
+0 @I103@ INDI
+1 NAME Antoni /Adrover Barceló/
+1 SEX M
+1 BIRT
+2 DATE 8 FEB 1663
+1 FAMC @F27@
+0 @I104@ INDI
+1 NAME Bernadí /Andreu/
+1 SEX M
+1 FAMS @F30@
+0 @I105@ INDI
+1 NAME Joana /Bordoy/
+1 SEX F
+1 FAMS @F30@
+0 @I106@ INDI
+1 NAME Apol·lònia /Andreu Bordoy/
+1 SEX F
+1 FAMC @F30@
+1 FAMS @F29@
+0 @I107@ INDI
+1 NAME Antonina /Adrover Andreu/
+1 SEX F
+1 BIRT
+2 DATE 19 AUG 1668
+1 FAMC @F29@
+0 @I108@ INDI
+1 NAME Bartomeu /Bordoy/
+1 SEX M
+1 FAMS @F31@
+0 @I109@ INDI
+1 NAME Antonina /Sunyer/
+1 SEX F
+1 FAMS @F31@
+0 @I110@ INDI
+1 NAME Joana /Bordoy Sunyer/
+1 SEX F
+1 FAMC @F31@
+1 FAMS @F32@
+0 @I111@ INDI
+1 NAME Antoni /Adrover Andreu/
+1 SEX M
+1 BIRT
+2 DATE 18 SEP 1674
+1 NOTE Viu el 1696 (h)
+1 FAMC @F29@
+1 FAMS @F32@
+0 @I112@ INDI
+1 NAME Cosme /Gayà/
+1 SEX M
+1 FAMS @F34@
+0 @I113@ INDI
+1 NAME Caterina /Banús/
+1 SEX F
+1 FAMS @F34@
+0 @I114@ INDI
+1 NAME Praxedis /Gayà Banús/
+1 SEX F
+1 FAMC @F34@
+1 FAMS @F33@
+0 @I115@ INDI
+1 NAME Andreu /Adrover/
+1 SEX M
+1 FAMS @F35@
+0 @I116@ INDI
+1 NAME Caterina /Bordoy/
+1 SEX F
+1 FAMS @F35@
+0 @I117@ INDI
+1 NAME Nicolau /Adrover Bordoy/
+1 SEX M
+1 BIRT
+2 DATE 9 JAN 1690
+1 FAMC @F35@
+0 @I118@ INDI
+1 NAME Joan /Adrover/
+1 SEX M
+1 FAMS @F36@
+0 @I119@ INDI
+1 NAME Antonina /Rigo/
+1 SEX F
+1 FAMS @F36@
+0 @I120@ INDI
+1 NAME Andreu /Adrover Rigo/
+1 SEX M
+1 NOTE de Santanyí
+1 FAMC @F36@
+1 FAMS @F37@
+0 @I121@ INDI
+1 NAME Andreu /Garí/
+1 SEX M
+1 FAMS @F38@
+0 @I122@ INDI
+1 NAME Antonina /Domenge/
+1 SEX F
+1 FAMS @F38@
+0 @I123@ INDI
+1 NAME Francina /Garí Domenge/
+1 SEX F
+1 FAMC @F38@
+1 FAMS @F37@
+0 @I124@ INDI
+1 NAME Antonina /Adrover Garí/
+1 SEX F
+1 BIRT
+2 DATE 22 JUL 1694
+1 FAMC @F37@
+0 @I125@ INDI
+1 NAME Francina /Adrover Garí/
+1 SEX F
+1 BIRT
+2 DATE 11 APR 1700
+1 FAMC @F37@
+0 @I126@ INDI
+1 NAME Joan Nicolau /Adrover Garí/
+1 SEX M
+1 BIRT
+2 DATE 31 MAR 1702
+1 FAMC @F37@
+0 @I127@ INDI
+1 NAME Joan Nicolau /Adrover Garí/
+1 SEX M
+1 BIRT
+2 DATE 8 SEP 1703
+1 FAMC @F37@
+0 @I128@ INDI
+1 NAME Bartomeu /Adrover/
+1 SEX M
+1 FAMS @F39@
+0 @I129@ INDI
+1 NAME Joana /Alou/
+1 SEX F
+1 FAMS @F39@
+0 @I130@ INDI
+1 NAME Andreu /Adrover Alou/
+1 SEX M
+1 FAMC @F39@
+1 FAMS @F40@
+0 @I131@ INDI
+1 NAME Nadal /Juan Padrines/
+1 SEX M
+1 FAMS @F41@
+0 @I132@ INDI
+1 NAME Anna /Sagrera/
+1 SEX F
+1 FAMS @F41@
+0 @I133@ INDI
+1 NAME Apol·lònia /Juan Padrines Sagrera/
+1 SEX F
+1 FAMC @F41@
+1 FAMS @F40@
+0 @I134@ INDI
+1 NAME Joana /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 8 DEC 1693
+1 FAMC @F40@
+0 @I135@ INDI
+1 NAME Anna Rosa /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 27 NOV 1695
+1 FAMC @F40@
+0 @I136@ INDI
+1 NAME Apol·lònia /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 6 MAY 1698
+1 FAMC @F40@
+0 @I137@ INDI
+1 NAME Caterina Rosa /Adrover Juan/
+1 SEX F
+1 BIRT
+2 DATE 8 OCT 1700
+1 FAMC @F40@
+0 @I138@ INDI
+1 NAME Bartomeu /Adrover Juan/
+1 SEX M
+1 BIRT
+2 DATE 2 MAR 1703
+1 FAMC @F40@
+0 @I139@ INDI
+1 NAME Bartomeu /Adrover/
+1 SEX M
+1 FAMS @F42@
+0 @I140@ INDI
+1 NAME Joana /Rigo/
+1 SEX F
+1 FAMS @F42@
+0 @I141@ INDI
+1 NAME Andreu /Adrover Rigo/
+1 SEX M
+1 FAMC @F42@
+1 FAMS @F43@
+0 @I142@ INDI
+1 NAME Nicolau /Rosselló/
+1 SEX M
+1 FAMS @F44@
+0 @I143@ INDI
+1 NAME Úrsula /Roig/
+1 SEX F
+1 FAMS @F44@
+0 @I144@ INDI
+1 NAME Caterina /Rosselló Roig/
+1 SEX F
+1 FAMC @F44@
+1 FAMS @F43@
+0 @I145@ INDI
+1 NAME Bartomeu /Adrover Rosselló/
+1 SEX M
+1 BIRT
+2 DATE 2 APR 1682
+1 FAMC @F43@
+0 @I146@ INDI
+1 NAME Joana Rosa /Adrover Rosselló/
+1 SEX F
+1 BIRT
+2 DATE 15 NOV 1684
+1 FAMC @F43@
+0 @I147@ INDI
+1 NAME Bartomeu /Adrover Rosselló/
+1 SEX M
+1 BIRT
+2 DATE 31 OCT 1685
+1 FAMC @F43@
+0 @I148@ INDI
+1 NAME Bartomeu /Adrover Rosselló/
+1 SEX M
+1 BIRT
+2 DATE 24 NOV 1686
+1 FAMC @F43@
+0 @I149@ INDI
+1 NAME Gabriel /Adrover/
+1 SEX M
+1 FAMS @F45@
+0 @I150@ INDI
+1 NAME Caterina /Tauler/
+1 SEX F
+1 FAMS @F45@
+0 @I151@ INDI
+1 NAME Andreu /Adrover Tauler/
+1 SEX M
+1 NOTE T. 10-6-1684 (N-100). + 1690, 5-10 (46) [19-7-1692 (N-103). + 21-7-1692].
+1 FAMC @F45@
+1 FAMS @F46@
+0 @I152@ INDI
+1 NAME Miquel /Veny/
+1 SEX M
+1 FAMS @F47@
+0 @I153@ INDI
+1 NAME Joana /Artigues/
+1 SEX F
+1 FAMS @F47@
+0 @I154@ INDI
+1 NAME Damiana /Veny Artigues/
+1 SEX F
+1 NOTE Dot 270 ll. [+ 1692, 11-7 (58)]
+1 FAMC @F47@
+1 FAMS @F46@
+0 @I155@ INDI
+1 NAME Gabriel /Adrover Veny/
+1 SEX M
+1 BIRT
+2 DATE 18 OCT 1670
+1 NOTE Viu el 1676 (h)
+1 FAMC @F46@
+0 @I156@ INDI
+1 NAME Pere /Oliver/
+1 SEX M
+1 FAMS @F48@
+0 @I157@ INDI
+1 NAME Caterina /Obrador/
+1 SEX F
+1 FAMS @F48@
+0 @I158@ INDI
+1 NAME Pere /Oliver Obrador/
+1 SEX M
+1 FAMC @F48@
+1 FAMS @F49@
+0 @I159@ INDI
+1 NAME Caterina /Adrover Veny/
+1 SEX F
+1 BIRT
+2 DATE 12 SEP 1673
+1 NOTE Viu el 1692. Dot 150 ll. el 1684 i 50 el 1692
+1 FAMC @F46@
+1 FAMS @F49@
+0 @I160@ INDI
+1 NAME Rafel /Adrover/
+1 SEX M
+1 FAMS @F50@
+0 @I161@ INDI
+1 NAME Caterina /Nicolau/
+1 SEX F
+1 FAMS @F50@
+0 @I162@ INDI
+1 NAME Antoni /Adrover Nicolau/
+1 SEX M
+1 FAMC @F50@
+1 FAMS @F51@
+0 @I163@ INDI
+1 NAME Joan /Adrover/
+1 SEX M
+1 FAMS @F52@
+0 @I164@ INDI
+1 NAME Pereta /Barceló/
+1 SEX F
+1 FAMS @F52@
+0 @I165@ INDI
+1 NAME Bàrbara /Adrover Barceló/
+1 SEX F
+1 FAMC @F52@
+1 FAMS @F51@
+0 @I166@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 FAMS @F53@
+0 @I167@ INDI
+1 NAME Magdalena /Adrover/
+1 SEX F
+1 FAMS @F53@
+0 @I168@ INDI
+1 NAME Joan Benet /Adrover Adrover/
+1 SEX M
+1 BIRT
+2 DATE 20 FEB 1672
+1 NOTE El batia Josep Vinyes, monjo de Montserrat.
+1 FAMC @F53@
+0 @I169@ INDI
+1 NAME Joan /Adrover/
+1 SEX M
+1 FAMS @F54@
+0 @I170@ INDI
+1 NAME Magdalena /Suau/
+1 SEX F
+1 FAMS @F54@
+0 @I171@ INDI
+1 NAME Antoni /Adrover Suau/
+1 SEX M
+1 NOTE T. 6-11-1705 (O-281). + 12-11-1705
+1 FAMC @F54@
+1 FAMS @F55@
+0 @I172@ INDI
+1 NAME Joan /Artigues/
+1 SEX M
+1 FAMS @F56@
+0 @I173@ INDI
+1 NAME Antonina /Obrador/
+1 SEX F
+1 FAMS @F56@
+0 @I174@ INDI
+1 NAME Joana /Artigues Obrador/
+1 SEX F
+1 NOTE Dot 80 ll.
+1 FAMC @F56@
+1 FAMS @F55@
+0 @I175@ INDI
+1 NAME Joan /Adrover/
+1 SEX M
+1 FAMS @F57@
+0 @I176@ INDI
+1 NAME Caterina /Pujol/
+1 SEX F
+1 FAMS @F57@
+0 @I177@ INDI
+1 NAME Antoni /Adrover Pujol/
+1 SEX M
+1 NOTE de Santanyí
+1 FAMC @F57@
+1 FAMS @F58@
+0 @I178@ INDI
+1 NAME Guillem /Barceló/
+1 SEX M
+1 FAMS @F59@
+0 @I179@ INDI
+1 NAME Anna /Barceló/
+1 SEX F
+1 FAMC @F59@
+1 FAMS @F58@
+0 @I180@ INDI
+1 NAME Joan /Adrover Barceló/
+1 SEX M
+1 BIRT
+2 DATE 20 JUN 1662
+1 FAMC @F58@
+0 @I181@ INDI
+1 NAME Caterina /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 23 OCT 1663
+1 FAMC @F58@
+0 @I182@ INDI
+1 NAME Elionor /Adrover Barceló/
+1 SEX F
+1 BIRT
+2 DATE 3 DEC 1665
+1 FAMC @F58@
+0 @I183@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 FAMS @F60@
+0 @I184@ INDI
+1 NAME Caterina /Bennàsser/
+1 SEX F
+1 FAMS @F60@
+0 @I185@ INDI
+1 NAME Antoni /Adrover Bennàsser/
+1 SEX M
+1 BIRT
+2 DATE 20 MAY 1663
+1 FAMC @F60@
+0 @I186@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 NOTE d'Antoni, Caselles. + 1668, 2-5
+1 FAMS @F61@
+0 @I187@ INDI
+1 NAME Elisabet /Bennàsser/
+1 SEX F
+1 FAMS @F61@
+0 @I188@ INDI
+1 NAME Bartomeu /Adrover Bennàsser/
+1 SEX M
+1 BIRT
+2 DATE 10 NOV 1665
+1 DEAT
+2 DATE 30 OCT 1681
+1 FAMC @F61@
+0 @I189@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 FAMS @F62@
+0 @I190@ INDI
+1 NAME Margarita /Tauler/
+1 SEX F
+1 FAMS @F62@
+0 @I191@ INDI
+1 NAME Antoni /Adrover Tauler/
+1 SEX M
+1 NOTE Caselles
+1 FAMC @F62@
+1 FAMS @F63@
+1 FAMS @F69@
+0 @I192@ INDI
+1 NAME Bartomeu /Binimelis/
+1 SEX M
+1 FAMS @F64@
+0 @I193@ INDI
+1 NAME Joana /Banús/
+1 SEX F
+1 FAMS @F64@
+0 @I194@ INDI
+1 NAME Apol·lònia /Binimelis/
+1 SEX F
+1 FAMC @F64@
+1 FAMS @F63@
+0 @I195@ INDI
+1 NAME Joan /Adrover Binimelis/
+1 SEX M
+1 FAMC @F63@
+0 @I196@ INDI
+1 NAME Joana /Prohens/
+1 SEX M
+1 FAMS @F66@
+0 @I197@ INDI
+1 NAME Caterina /Prohens/
+1 SEX F
+1 FAMS @F66@
+0 @I198@ INDI
+1 NAME Joana /Prohens Prohens/
+1 SEX F
+1 FAMC @F66@
+1 FAMS @F65@
+0 @I199@ INDI
+1 NAME Sebastià /Obrador/
+1 SEX M
+1 FAMS @F67@
+0 @I200@ INDI
+1 NAME Margarita /Vidal/
+1 SEX F
+1 FAMS @F67@
+0 @I201@ INDI
+1 NAME Joana /Obrador Vidal/
+1 SEX F
+1 FAMC @F67@
+1 FAMS @F65@
+0 @I202@ INDI
+1 NAME Gabriel /Maymó/
+1 SEX M
+1 FAMS @F68@
+0 @I203@ INDI
+1 NAME Marianna /Tauler/
+1 SEX F
+1 FAMS @F68@
+0 @I204@ INDI
+1 NAME Caterina /Maymó Tauler/
+1 SEX F
+1 FAMC @F68@
+1 FAMS @F65@
+0 @I205@ INDI
+1 NAME Antoni /Adrover Binimelis/
+1 SEX M
+1 BIRT
+2 DATE 10 NOV 1661
+1 FAMC @F63@
+1 FAMS @F65@
+0 @I206@ INDI
+1 NAME Bartomeu /Adrover Binimelis/
+1 SEX M
+1 BIRT
+2 DATE 12 AUG 1664
+1 FAMC @F63@
+0 @I207@ INDI
+1 NAME Margarita /Adrover Binimelis/
+1 SEX F
+1 BIRT
+2 DATE 22 JAN 1668
+1 FAMC @F63@
+0 @I208@ INDI
+1 NAME Gabriel /Vaquer/
+1 SEX M
+1 FAMS @F70@
+0 @I209@ INDI
+1 NAME Margarita /Obrador/
+1 SEX F
+1 FAMS @F70@
+0 @I210@ INDI
+1 NAME Bàrbara /Vaquer Obrador/
+1 SEX F
+1 FAMC @F70@
+1 FAMS @F69@
+0 @I211@ INDI
+1 NAME Andreu /Adrover/
+1 SEX M
+1 FAMS @F71@
+0 @I212@ INDI
+1 NAME Apol·lònia /Andreu/
+1 SEX F
+1 FAMS @F71@
+0 @I213@ INDI
+1 NAME Antoni /Adrover Andreu/
+1 SEX M
+1 FAMC @F71@
+1 FAMS @F72@
+0 @I214@ INDI
+1 NAME Bartomeu /Bordoy/
+1 SEX M
+1 FAMS @F73@
+0 @I215@ INDI
+1 NAME Antonina /Sunyer/
+1 SEX F
+1 FAMS @F73@
+0 @I216@ INDI
+1 NAME Joana /Bordoy Sunyer/
+1 SEX F
+1 DEAT
+2 DATE 10 NOV 1704
+1 FAMC @F73@
+1 FAMS @F72@
+0 @I217@ INDI
+1 NAME Andreu Nicolau /Adrover Bordoy/
+1 SEX M
+1 BIRT
+2 DATE 13 SEP 1698
+1 FAMC @F72@
+0 @I218@ INDI
+1 NAME Bartomeu Josep /Adrover Bordoy/
+1 SEX M
+1 BIRT
+2 DATE 6 JUL 1703
+1 FAMC @F72@
+0 @I219@ INDI
+1 NAME Apol·lònia Anna /Adrover Bordoy/
+1 SEX F
+1 BIRT
+2 DATE 12 OCT 1704
+1 FAMC @F72@
+0 @I220@ INDI
+1 NAME Antoni /Adrover/
+1 SEX M
+1 FAMS @F74@
+0 @I221@ INDI
+1 NAME Apol·lònia /Binimelis/
+1 SEX F
+1 FAMS @F74@
+0 @I222@ INDI
+1 NAME Antoni /Adrover Binimelis/
+1 SEX M
+1 BIRT
+2 DATE 10 NOV 1661
+1 NOTE T. 23-11-1693 (O-279)
+1 FAMC @F74@
+1 FAMS @F75@
+1 FAMS @F76@
+1 FAMS @F77@
+1 FAMS @F81@
+0 @I223@ INDI
+1 NAME Apol·lònia Rosa /Adrover Prohens/
+1 SEX F
+1 BIRT
+2 DATE 26 FEB 1682
+1 FAMC @F75@
+0 @I224@ INDI
+1 NAME Joan /Escales/
+1 SEX M
+1 FAMS @F79@
+0 @I225@ INDI
+1 NAME Angelina /Montserrat/
+1 SEX F
+1 FAMS @F79@
+0 @I226@ INDI
+1 NAME Joaquim /Escales Montserrat/
+1 SEX M
+1 FAMC @F79@
+1 FAMS @F80@
+0 @I227@ INDI
+1 NAME Elisabet Joana /Adrover Obrador/
+1 SEX F
+1 BIRT
+2 DATE 4 JAN 1684
+1 NOTE Viu el 1693
+1 FAMC @F76@
+1 FAMS @F80@
+0 @I228@ INDI
+1 NAME Antoni /Adrover Obrador/
+1 SEX M
+1 NOTE Viu el 1693
+1 FAMC @F76@
+0 @I229@ INDI
+1 NAME Gabriel /Adrover Obrador/
+1 SEX M
+1 NOTE Viu el 1693
+1 FAMC @F76@
+0 @I230@ INDI
+1 NAME Antoni /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 15 DEC 1684
+1 FAMC @F77@
+0 @I231@ INDI
+1 NAME Marianna /Adrover Maymó/
+1 SEX F
+1 BIRT
+2 DATE 17 DEC 1685
+1 NOTE T. 23-11-1693 (O-279)
+1 FAMC @F77@
+0 @I232@ INDI
+1 NAME Antoni Josep /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 20 AUG 1688
+1 FAMC @F77@
+0 @I233@ INDI
+1 NAME Gabriel Bartomeu /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 21 AUG 1691
+1 FAMC @F77@
+0 @I234@ INDI
+1 NAME Marianna /Adrover Maymó/
+1 SEX F
+1 BIRT
+2 DATE 27 OCT 1694
+1 DEAT
+2 DATE 15 SEP 1698
+1 FAMC @F77@
+0 @I235@ INDI
+1 NAME Bartomeu /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 8 SEP 1697
+1 FAMC @F77@
+0 @I236@ INDI
+1 NAME Miquel Joan /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 26 OCT 1700
+1 FAMC @F77@
+0 @I237@ INDI
+1 NAME Jaume /Adrover Maymó/
+1 SEX M
+1 BIRT
+2 DATE 8 AUG 1703
+1 NOTE sic
+1 FAMC @F77@
+0 @I238@ INDI
+1 NAME Antoni /Fiol/
+1 SEX M
+1 FAMS @F82@
+0 @I239@ INDI
+1 NAME Antonina /Prohens/
+1 SEX F
+1 FAMS @F82@
+0 @I240@ INDI
+1 NAME Elisabet /Fiol Prohens/
+1 SEX F
+1 FAMC @F82@
+1 FAMS @F81@
+0 @I241@ INDI
+1 NAME Antoni /Adrover Fiol/
+1 SEX M
+1 BIRT
+2 DATE 26 JUN 1693
+1 FAMC @F81@
+0 @I242@ INDI
+1 NAME Apol·lònia /Adrover Fiol/
+1 SEX F
+1 BIRT
+2 DATE 29 SEP 1695
+1 FAMC @F81@
+0 @I243@ INDI
+1 NAME Apol·lònia /Adrover Fiol/
+1 SEX F
+1 BIRT
+2 DATE 10 FEB 1697
+1 DEAT
+2 DATE 22 JUL 1698
+1 FAMC @F81@
+0 @I244@ INDI
+1 NAME Bartomeu /Adrover Fiol/
+1 SEX M
+1 BIRT
+2 DATE 20 JUL 1699
+1 FAMC @F81@
+0 @I245@ INDI
+1 NAME Apol·lònia Rosa /Adrover Fiol/
+1 SEX F
+1 BIRT
+2 DATE 15 MAR 1702
+1 FAMC @F81@
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+1 MARR
+2 DATE 12 JUN 1667
+2 PLAC Sta. Creu
+0 @F2@ FAM
+1 HUSB @I4@
+1 WIFE @I5@
+1 CHIL @I6@
+1 CHIL @I7@
+1 CHIL @I8@
+1 CHIL @I9@
+1 CHIL @I10@
+1 CHIL @I11@
+1 CHIL @I12@
+1 MARR
+2 DATE 17 DEC 1656
+0 @F3@ FAM
+1 HUSB @I31@
+1 WIFE @I32@
+1 CHIL @I14@
+1 CHIL @I16@
+0 @F4@ FAM
+1 HUSB @I14@
+1 WIFE @I15@
+1 MARR
+2 DATE 16 MAY 1682
+0 @F5@ FAM
+1 HUSB @I26@
+1 WIFE @I27@
+1 CHIL @I4@
+0 @F6@ FAM
+1 HUSB @I28@
+1 WIFE @I29@
+1 CHIL @I5@
+0 @F7@ FAM
+1 HUSB @I4@
+1 WIFE @I30@
+1 CHIL @I13@
+0 @F8@ FAM
+1 HUSB @I33@
+1 WIFE @I34@
+1 CHIL @I15@
+0 @F9@ FAM
+1 HUSB @I16@
+1 WIFE @I17@
+1 CHIL @I18@
+1 CHIL @I19@
+1 CHIL @I20@
+1 CHIL @I21@
+1 CHIL @I22@
+1 CHIL @I23@
+1 CHIL @I24@
+1 CHIL @I25@
+1 MARR
+2 DATE 17 NOV 1675
+0 @F10@ FAM
+1 HUSB @I35@
+1 WIFE @I36@
+1 CHIL @I17@
+0 @F11@ FAM
+1 HUSB @I57@
+1 WIFE @I58@
+1 CHIL @I37@
+1 CHIL @I42@
+0 @F12@ FAM
+1 HUSB @I37@
+1 WIFE @I38@
+1 CHIL @I39@
+1 CHIL @I40@
+1 CHIL @I41@
+1 MARR
+2 DATE 27 APR 1659
+0 @F13@ FAM
+1 HUSB @I59@
+1 WIFE @I60@
+1 CHIL @I38@
+0 @F14@ FAM
+1 HUSB @I42@
+1 WIFE @I43@
+1 CHIL @I44@
+1 CHIL @I45@
+1 CHIL @I46@
+1 CHIL @I47@
+1 CHIL @I48@
+1 MARR
+2 DATE 18 SEP 1650
+0 @F15@ FAM
+1 HUSB @I42@
+1 WIFE @I49@
+1 CHIL @I50@
+1 CHIL @I51@
+1 CHIL @I52@
+1 CHIL @I53@
+1 CHIL @I54@
+1 CHIL @I55@
+1 CHIL @I56@
+1 MARR
+2 DATE 24 SEP 1673
+0 @F16@ FAM
+1 HUSB @I61@
+1 WIFE @I62@
+1 CHIL @I43@
+0 @F17@ FAM
+1 HUSB @I63@
+1 WIFE @I64@
+1 CHIL @I49@
+0 @F18@ FAM
+1 HUSB @I65@
+1 WIFE @I66@
+1 CHIL @I67@
+1 CHIL @I68@
+0 @F19@ FAM
+1 HUSB @I65@
+1 WIFE @I69@
+1 CHIL @I70@
+0 @F20@ FAM
+1 HUSB @I71@
+1 WIFE @I72@
+1 CHIL @I73@
+0 @F21@ FAM
+1 HUSB @I73@
+1 WIFE @I76@
+1 CHIL @I77@
+1 CHIL @I78@
+1 CHIL @I79@
+1 CHIL @I80@
+1 CHIL @I81@
+1 MARR
+2 DATE 15 APR 1696
+0 @F22@ FAM
+1 HUSB @I74@
+1 WIFE @I75@
+1 CHIL @I76@
+0 @F23@ FAM
+1 HUSB @I82@
+1 WIFE @I83@
+1 CHIL @I84@
+0 @F24@ FAM
+1 HUSB @I84@
+1 WIFE @I87@
+1 CHIL @I88@
+1 CHIL @I89@
+1 CHIL @I90@
+1 CHIL @I91@
+1 CHIL @I92@
+1 CHIL @I93@
+1 CHIL @I94@
+1 CHIL @I95@
+1 MARR
+2 DATE 6 JUN 1677
+0 @F25@ FAM
+1 HUSB @I85@
+1 WIFE @I86@
+1 CHIL @I87@
+0 @F26@ FAM
+1 HUSB @I96@
+1 WIFE @I97@
+1 CHIL @I98@
+0 @F27@ FAM
+1 HUSB @I98@
+1 WIFE @I101@
+1 CHIL @I102@
+1 CHIL @I103@
+1 MARR
+2 DATE 25 DEC 1657
+0 @F28@ FAM
+1 HUSB @I99@
+1 WIFE @I100@
+1 CHIL @I101@
+0 @F29@ FAM
+1 HUSB @I98@
+1 WIFE @I106@
+1 CHIL @I107@
+1 CHIL @I111@
+1 MARR
+2 DATE 25 DEC 1667
+0 @F30@ FAM
+1 HUSB @I104@
+1 WIFE @I105@
+1 CHIL @I106@
+0 @F31@ FAM
+1 HUSB @I108@
+1 WIFE @I109@
+1 CHIL @I110@
+0 @F32@ FAM
+1 HUSB @I111@
+1 WIFE @I110@
+1 MARR
+2 DATE 1697
+0 @F33@ FAM
+1 HUSB @I98@
+1 WIFE @I114@
+1 MARR
+2 DATE 10 JAN 1692
+0 @F34@ FAM
+1 HUSB @I112@
+1 WIFE @I113@
+1 CHIL @I114@
+0 @F35@ FAM
+1 HUSB @I115@
+1 WIFE @I116@
+1 CHIL @I117@
+0 @F36@ FAM
+1 HUSB @I118@
+1 WIFE @I119@
+1 CHIL @I120@
+0 @F37@ FAM
+1 HUSB @I120@
+1 WIFE @I123@
+1 CHIL @I124@
+1 CHIL @I125@
+1 CHIL @I126@
+1 CHIL @I127@
+1 MARR
+2 DATE 1 JAN 1690
+0 @F38@ FAM
+1 HUSB @I121@
+1 WIFE @I122@
+1 CHIL @I123@
+0 @F39@ FAM
+1 HUSB @I128@
+1 WIFE @I129@
+1 CHIL @I130@
+0 @F40@ FAM
+1 HUSB @I130@
+1 WIFE @I133@
+1 CHIL @I134@
+1 CHIL @I135@
+1 CHIL @I136@
+1 CHIL @I137@
+1 CHIL @I138@
+1 MARR
+2 DATE 1 FEB 1693
+0 @F41@ FAM
+1 HUSB @I131@
+1 WIFE @I132@
+1 CHIL @I133@
+0 @F42@ FAM
+1 HUSB @I139@
+1 WIFE @I140@
+1 CHIL @I141@
+0 @F43@ FAM
+1 HUSB @I141@
+1 WIFE @I144@
+1 CHIL @I145@
+1 CHIL @I146@
+1 CHIL @I147@
+1 CHIL @I148@
+1 MARR
+2 DATE 6 AUG 1679
+0 @F44@ FAM
+1 HUSB @I142@
+1 WIFE @I143@
+1 CHIL @I144@
+0 @F45@ FAM
+1 HUSB @I149@
+1 WIFE @I150@
+1 CHIL @I151@
+0 @F46@ FAM
+1 HUSB @I151@
+1 WIFE @I154@
+1 CHIL @I155@
+1 CHIL @I159@
+1 MARR
+2 DATE 17 JUN 1669
+0 @F47@ FAM
+1 HUSB @I152@
+1 WIFE @I153@
+1 CHIL @I154@
+0 @F48@ FAM
+1 HUSB @I156@
+1 WIFE @I157@
+1 CHIL @I158@
+0 @F49@ FAM
+1 HUSB @I158@
+1 WIFE @I159@
+1 MARR
+2 DATE 1693
+0 @F50@ FAM
+1 HUSB @I160@
+1 WIFE @I161@
+1 CHIL @I162@
+0 @F51@ FAM
+1 HUSB @I162@
+1 WIFE @I165@
+1 MARR
+2 DATE 19 MAR 1706
+0 @F52@ FAM
+1 HUSB @I163@
+1 WIFE @I164@
+1 CHIL @I165@
+0 @F53@ FAM
+1 HUSB @I166@
+1 WIFE @I167@
+1 CHIL @I168@
+0 @F54@ FAM
+1 HUSB @I169@
+1 WIFE @I170@
+1 CHIL @I171@
+0 @F55@ FAM
+1 HUSB @I171@
+1 WIFE @I174@
+1 MARR
+2 DATE 16 MAR 1698
+0 @F56@ FAM
+1 HUSB @I172@
+1 WIFE @I173@
+1 CHIL @I174@
+0 @F57@ FAM
+1 HUSB @I175@
+1 WIFE @I176@
+1 CHIL @I177@
+0 @F58@ FAM
+1 HUSB @I177@
+1 WIFE @I179@
+1 CHIL @I180@
+1 CHIL @I181@
+1 CHIL @I182@
+1 MARR
+2 DATE 31 JUL 1661
+0 @F59@ FAM
+1 HUSB @I178@
+1 WIFE @I179@
+0 @F60@ FAM
+1 HUSB @I183@
+1 WIFE @I184@
+1 CHIL @I185@
+0 @F61@ FAM
+1 HUSB @I186@
+1 WIFE @I187@
+1 CHIL @I188@
+0 @F62@ FAM
+1 HUSB @I189@
+1 WIFE @I190@
+1 CHIL @I191@
+0 @F63@ FAM
+1 HUSB @I191@
+1 WIFE @I194@
+1 CHIL @I195@
+1 CHIL @I205@
+1 CHIL @I206@
+1 CHIL @I207@
+1 MARR
+2 DATE 3 JUN 1659
+0 @F64@ FAM
+1 HUSB @I192@
+1 WIFE @I193@
+1 CHIL @I194@
+0 @F65@ FAM
+1 HUSB @I205@
+1 WIFE @I198@
+1 WIFE @I201@
+1 WIFE @I204@
+1 MARR
+2 DATE 1681
+0 @F66@ FAM
+1 HUSB @I196@
+1 WIFE @I197@
+1 CHIL @I198@
+0 @F67@ FAM
+1 HUSB @I199@
+1 WIFE @I200@
+1 CHIL @I201@
+0 @F68@ FAM
+1 HUSB @I202@
+1 WIFE @I203@
+1 CHIL @I204@
+0 @F69@ FAM
+1 HUSB @I191@
+1 WIFE @I210@
+1 MARR
+2 DATE 1673
+0 @F70@ FAM
+1 HUSB @I208@
+1 WIFE @I209@
+1 CHIL @I210@
+0 @F71@ FAM
+1 HUSB @I211@
+1 WIFE @I212@
+1 CHIL @I213@
+0 @F72@ FAM
+1 HUSB @I213@
+1 WIFE @I216@
+1 CHIL @I217@
+1 CHIL @I218@
+1 CHIL @I219@
+1 MARR
+2 DATE 23 MAY 1697
+0 @F73@ FAM
+1 HUSB @I214@
+1 WIFE @I215@
+1 CHIL @I216@
+0 @F74@ FAM
+1 HUSB @I220@
+1 WIFE @I221@
+1 CHIL @I222@
+0 @F75@ FAM
+1 HUSB @I222@
+1 WIFE @I198@
+1 CHIL @I223@
+1 MARR
+2 DATE 1 JUN 1681
+0 @F76@ FAM
+1 HUSB @I222@
+1 WIFE @I201@
+1 CHIL @I227@
+1 CHIL @I228@
+1 CHIL @I229@
+1 MARR
+2 DATE 17 JAN 1683
+0 @F77@ FAM
+1 HUSB @I222@
+1 WIFE @I204@
+1 CHIL @I230@
+1 CHIL @I231@
+1 CHIL @I232@
+1 CHIL @I233@
+1 CHIL @I234@
+1 CHIL @I235@
+1 CHIL @I236@
+1 CHIL @I237@
+1 MARR
+2 DATE 9 MAY 1684
+0 @F78@ FAM
+1 HUSB @I222@
+1 WIFE @I240@
+1 CHIL @I241@
+1 CHIL @I242@
+1 CHIL @I243@
+1 CHIL @I244@
+1 CHIL @I245@
+1 MARR
+2 DATE 18 NOV 1691
+0 @F79@ FAM
+1 HUSB @I224@
+1 WIFE @I225@
+1 CHIL @I226@
+0 @F80@ FAM
+1 HUSB @I226@
+1 WIFE @I227@
+1 MARR
+2 DATE 1702
+0 @F81@ FAM
+1 HUSB @I238@
+1 WIFE @I239@
+1 CHIL @I240@
+0 TRLR
