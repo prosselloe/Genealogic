@@ -1,11 +1,11 @@
 {
-    "name": "myapp",
-    "short_name": "myapp",
+    "name": "Genealogic Balear",
+    "short_name": "Genealogic Balear",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A Flutter application for visualizing and exploring family trees in the Balearic Islands.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

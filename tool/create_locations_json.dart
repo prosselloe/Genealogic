@@ -1,32 +1,21 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:genealogic/gedcom_parser.dart';
-import 'package:geocoding/geocoding.dart';
-import 'dart:developer' as developer;
+import 'dart:convert';
+import 'package:genealogic_balear/gedcom_parser.dart';
 
-void main() async {
-  final gedcomData = await File('assets/data/myheritage.ged').readAsString();
+Future<void> main() async {
+  final file = File('assets/data/myheritage.ged');
+  final content = await file.readAsString();
   final parser = GedcomParser();
-  await parser.parse(gedcomData);
-
-  final locations = <String, Map<String, double>>{};
-
-  for (final place in parser.uniquePlaces) {
-    try {
-      final locationData = await locationFromAddress(place);
-      if (locationData.isNotEmpty) {
-        locations[place] = {
-          'latitude': locationData.first.latitude,
-          'longitude': locationData.first.longitude,
-        };
-      }
-    } catch (e, s) {
-      developer.log('Could not geocode "$place"', name: 'create_locations_json', error: e, stackTrace: s);
-    }
+  await parser.parse(content);
+  
+  final locations = <String, Map<String, double?>>{};
+  for (var place in parser.uniquePlaces) {
+    locations[place] = {'lat': null, 'lon': null};
   }
 
-  final jsonString = json.encode(locations);
-  await File('assets/locations.json').writeAsString(jsonString);
+  final jsonFile = File('assets/data/locations.json');
+  await jsonFile.writeAsString(jsonEncode(locations));
 
-  developer.log('locations.json created successfully.', name: 'create_locations_json');
+  // ignore: avoid_print
+  print('Generated ${locations.length} locations to assets/data/locations.json');
 }
