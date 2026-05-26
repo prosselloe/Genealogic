@@ -3,6 +3,7 @@ import 'photo.dart';
 class Person {
   final String id;
   final String name;
+  final String? surn;
   final String? sex;
   final String? birthDate;
   final String? birthPlace;
@@ -18,6 +19,7 @@ class Person {
   Person({
     required this.id,
     required this.name,
+    this.surn,
     this.sex,
     this.birthDate,
     this.birthPlace,
@@ -52,6 +54,7 @@ class Person {
     return Person(
       id: map['id'] as String? ?? 'Unknown ID',
       name: map['name'] as String? ?? 'Unknown Name',
+      surn: map['surn'] as String?,
       sex: map['sex'] as String?,
       birthDate: birthMap?['date'] as String? ?? birthMap?['_date'] as String?,
       birthPlace: birthMap?['plac'] as String? ?? birthMap?['_place'] as String?,

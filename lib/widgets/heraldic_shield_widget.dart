@@ -42,6 +42,56 @@ class _HeraldicShieldWidgetState extends State<HeraldicShieldWidget> {
       return null;
     }
 
+    final lowerCaseSurname = widget.surname.toLowerCase();
+
+    if (lowerCaseSurname == "rosselló") {
+      return "assets/images/Rosselló.png";
+    }
+    if (lowerCaseSurname == "espases") {
+      return "assets/images/Espases.png";
+    }
+    if (lowerCaseSurname == "de_mallorca") {
+      return "assets/images/de_Mallorca.png";
+    }
+    if (lowerCaseSurname == "d'aragó") {
+      return "assets/images/d'Aragó.png";
+    }
+    if ((lowerCaseSurname == "d'hongria") || 
+        (lowerCaseSurname == "de_vilaragut")) {
+      return "assets/images/d'Hongria.png";
+    }
+    if (lowerCaseSurname == "de_foix") {
+      return "assets/images/de_Foix.png";
+    }
+    if (lowerCaseSurname == "de_cardona") {
+      return "assets/images/de_Cardona.png";
+    }
+    if (lowerCaseSurname == "de_nàpols") {
+      return "assets/images/de_Nàpols.png";
+    }
+    if (lowerCaseSurname == "de_castella") {
+      return "assets/images/de_Castella.png";
+    }
+    if ((lowerCaseSurname == "d'acaia") || 
+        (lowerCaseSurname == "de_sabran")) {
+      return "assets/images/d'Acaia.png";
+    }
+    if (lowerCaseSurname == "de_sicília") {
+      return "assets/images/de_Sicília.png";
+    }
+    if (lowerCaseSurname == "de_frança") {
+      return "assets/images/de_França.png";
+    }
+    if (lowerCaseSurname == "d'entença") {
+      return "assets/images/d'Entença.png";
+    }
+    if (lowerCaseSurname == "d'ibelin") {
+      return "assets/images/d'Ibelin.png";
+    }
+    if (lowerCaseSurname == "de_lusignan") {
+      return "assets/images/de_Lusignan.png";
+    }
+
     if (_shieldUrlCache.containsKey(widget.surname)) {
       return _shieldUrlCache[widget.surname];
     }
@@ -114,13 +164,16 @@ class _HeraldicShieldWidgetState extends State<HeraldicShieldWidget> {
         }
 
         if (snapshot.hasData && snapshot.data != null) {
+          final imagePath = snapshot.data!;
+          final isAsset = imagePath.startsWith('assets/');
+
           return Container(
             width: widget.size,
             height: widget.size,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
-                image: NetworkImage(snapshot.data!),
+                image: isAsset ? AssetImage(imagePath) as ImageProvider : NetworkImage(imagePath),
                 fit: BoxFit.contain,
               ),
             ),

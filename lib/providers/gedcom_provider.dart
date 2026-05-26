@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:genealogic/gedcom_parser.dart';
+import 'package:genealogic_balear/gedcom_parser.dart';
 
 enum GedcomStatus { initial, loading, loaded, error }
 
@@ -72,7 +72,7 @@ class GedcomProvider with ChangeNotifier {
         _status = GedcomStatus.loaded;
 
       } else {
-        _status = GedcomStatus.loaded;
+        _status = (_parser != null) ? GedcomStatus.loaded : GedcomStatus.initial;
       }
     } catch (e) {
       _error = 'Error loading file: $e';
@@ -81,14 +81,48 @@ class GedcomProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Helper function to find line and column from a byte offset
+  (int, int) _findLineAndColumn(Uint8List bytes, int offset) {
+    int line = 1;
+    int column = 1;
+    for (int i = 0; i < offset; i++) {
+      if (bytes[i] == 0x0A) { // ASCII value for newline '\n'
+        line++;
+        column = 1;
+      } else {
+        column++;
+      }
+    }
+    return (line, column);
+  }
+
   String _decodeGedcom(Uint8List bytes) {
     try {
-      // First, try to decode as UTF-8, as it's the standard.
-      return utf8.decode(bytes, allowMalformed: false); // Strict
-    } on FormatException {
-      // If it fails, it's likely mislabeled and is actually latin1.
-      // This is a common issue with GEDCOM files.
-      return latin1.decode(bytes);
+      // First, check for the CHAR tag to confirm encoding
+      final firstFewLines = utf8.decode(bytes.take(200).toList(), allowMalformed: true);
+      final charLine = firstFewLines.split('\n').firstWhere(
+        (line) => line.trim().startsWith('1 CHAR'),
+        orElse: () => '',
+      );
+
+      if (charLine.isNotEmpty && !charLine.contains('UTF-8')) {
+        throw FormatException(
+          'GEDCOM file is not declared as UTF-8. Found: "$charLine". Please save the file with UTF-8 encoding.'
+        );
+      }
+
+      // Enforce strict UTF-8 decoding
+      return utf8.decode(bytes, allowMalformed: false);
+    } on FormatException catch (e) {
+      final (line, column) = _findLineAndColumn(bytes, e.offset ?? 0);
+      throw FormatException(
+        'Invalid UTF-8 character found at line $line, column $column. The file must be saved with UTF-8 encoding.',
+        e.source,
+        e.offset,
+      );
+    } catch (e) {
+      // Rethrow other potential errors
+      rethrow;
     }
   }
 

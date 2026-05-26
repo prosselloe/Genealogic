@@ -1,4 +1,4 @@
-import 'package:genealogic/models/person.dart';
+import 'package:genealogic_balear/models/person.dart';
 
 class Family {
   final String id;

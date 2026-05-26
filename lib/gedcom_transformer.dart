@@ -1,278 +1,321 @@
 import 'dart:async';
+import 'package:genealogic_balear/src/parser_utils.dart';
 
-class Individual {
-  String id;
-  String? firstName;
-  String? surname;
-  String? sex; // M, F, or U
-  String? birthDate;
-  String? parentFamilyId;
-  List<String> spouseFamilyIds = [];
-  List<String> notes = [];
-
-  Individual({ required this.id, this.sex });
-
-  String get fullName => [firstName, surname].where((n) => n != null && n.isNotEmpty).join(' ');
-  String get gedcomName => '${firstName ?? ''} /${surname ?? ''}/'.trim();
+// Data Models
+class _Person {
+  final String id;
+  String givenName, surname;
+  String? sex;
+  int? ageAtMarriage;
+  String? birthDate, birthPlace, deathDate, deathPlace, notes, famcId, famsId; // Added deathPlace
+  _Person({required this.id, this.givenName = '', this.surname = '', this.sex});
 }
 
-class Family {
-  String id;
-  String? husbandId;
-  String? wifeId;
-  String? marriageDate;
-  List<String> childrenIds = [];
-
-  Family({ required this.id });
+class _Family {
+  final String id;
+  String? husbandId, wifeId, marriageDate, marriagePlace;
+  final List<String> childrenIds = [];
+  _Family({required this.id});
 }
 
 class GedcomTransformer {
-  final List<Individual> _individuals = [];
-  final List<Family> _families = [];
-  int _individualCounter = 0;
-  int _familyCounter = 0;
+  Future<String> transform(String inputText) async {
+    final lines = inputText.split('\n').map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
+    final people = <String, _Person>{};
+    final families = <String, _Family>{};
+    final lineageAncestors = <String, _Family>{}; // Map lineage name to its family
+    int pCounter = 1, fCounter = 1;
 
-  Future<String> transform(String text) async {
-    _reset();
-    final lines = text.split('\n').map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
+    _Person? patriarch, matriarch;
+    _Family? currentFamily;
+    String? currentLineageName;
 
-    if (lines.isEmpty) return _generateGedcom();
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i];
+      if (line.startsWith('[') && line.endsWith(']')) continue; // Ignore commented out lines
 
-    final lineageName = lines.first;
-    final ancestor = _createIndividual(surname: lineageName, sex: 'M');
+      if (RegExp(r'^[A-ZÀ-Ú ]+$').hasMatch(line)) { // Lineage Name
+        currentLineageName = line;
+        if (!lineageAncestors.containsKey(currentLineageName)) {
+          final ancestor = _Person(id: '@I${pCounter++}@', givenName: currentLineageName, sex: 'M');
+          ancestor.birthPlace = 'Felanitx';
+          people[ancestor.id] = ancestor;
+          final ancestorFamily = _Family(id: '@F${fCounter++}@')..husbandId = ancestor.id;
+          families[ancestorFamily.id] = ancestorFamily;
+          lineageAncestors[currentLineageName] = ancestorFamily;
+        }
+      } else if (line.startsWith('*')) { // Marriage & Matriarch
+        final marriageLine = line.substring(1).trim();
+        final marriageParts = marriageLine.split('a ');
+        final marriageDateStr = marriageParts.first;
+        String? marriagePlace;
+        if (marriageParts.length > 1) {
+          marriagePlace = 'a ${marriageParts.sublist(1).join('a ').split(',').first.trim()}';
+        }
 
-    String? marriageDateStr;
-    int? patriarchAge;
-    int patriarchLineIndex = -1;
+        final dateMatch = RegExp(r'^[\d\s,-]+|(N)').firstMatch(marriageDateStr);
 
-    // Find marriage info first to get the date
-    final marriageLine = lines.firstWhere((line) => line.startsWith('*'), orElse: () => '');
-    final marriageRegex = RegExp(r'\* (.*?), (.*?), de (.*) i de (.*) \((\d+)\)');
-    final marriageMatch = marriageRegex.firstMatch(marriageLine);
+        var details = marriageLine.substring(dateMatch?.group(0)?.length ?? 0).trim();
+        if (details.startsWith(',')) {
+          details = details.substring(1).trim();
+        }
 
-    if (marriageMatch != null) {
-      marriageDateStr = marriageMatch.group(1)!.trim();
-    }
+        final testamentInfo = extractTestamentNotes(details);
+        if (testamentInfo != null && patriarch != null) {
+          patriarch.deathDate = 'BEF ${testamentInfo.date}';
+          patriarch.deathPlace = 'Felanitx';
+        }
 
-    // Find patriarch block
-    patriarchLineIndex = lines.indexWhere((line) => !line.startsWith('*') && lines.indexOf(line) > 0 && line.contains(','));
-    if (patriarchLineIndex == -1) return _generateGedcom();
+        final nameAndParents = details.replaceAll(RegExp(r'\s*T\..*'), '').trim().replaceAll(RegExp(r'\.$'), '');
+        final wifeParts = nameAndParents.split(',');
+        final wifeFullName = wifeParts[0].replaceAll(RegExp(r'\s*\(.*?\)'), '').trim();
+        final wifeNameParts = wifeFullName.split(' ');
+        final wifeSurname = wifeNameParts.removeLast();
+        final wifeGivenName = wifeNameParts.join(' ');
 
-    final patriarchNameLine = lines[patriarchLineIndex];
-    final patriarchParentsLine = lines[patriarchLineIndex + 1];
-    
-    final ageRegex = RegExp(r'\((\d+)\)');
-    final patriarchAgeMatch = ageRegex.firstMatch(patriarchParentsLine);
-    if (patriarchAgeMatch != null) {
-      patriarchAge = int.tryParse(patriarchAgeMatch.group(1)!);
-    }
+        matriarch = _Person(id: '@I${pCounter++}@', givenName: wifeGivenName, surname: wifeSurname, sex: 'F');
+        matriarch.birthPlace = 'Felanitx';
+        matriarch.ageAtMarriage = extractAge(details);
+        matriarch.deathDate = extractDeathDate(details);
+        if (matriarch.deathDate != null) matriarch.deathPlace = 'Felanitx';
 
-    final patriarch = _processPatriarchBlock(patriarchNameLine, patriarchParentsLine, ancestor, marriageDateStr, patriarchAge);
+        if (testamentInfo != null) {
+          matriarch.notes = testamentInfo.rawText;
+        }
+        people[matriarch.id] = matriarch;
+        
+        if (currentFamily != null) {
+          currentFamily.wifeId = matriarch.id;
+          currentFamily.marriageDate = (parseDate(dateMatch?.group(0)?.replaceAll(' ', '')) ?? dateMatch?.group(0) ?? '');
+          currentFamily.marriagePlace = marriagePlace ?? 'Felanitx';
+          matriarch.famsId = currentFamily.id;
+        }
 
-    if (marriageMatch != null) {
-      _processMarriageBlock(marriageMatch, patriarch, marriageDateStr!);
-    }
 
-    return _generateGedcom();
-  }
+        if (wifeParts.length > 1) {
+          final matriarchOriginalSurname = matriarch.surname;
+          final wifeParentInfo = extractParentage(wifeParts[1], wifeGivenName, matriarchOriginalSurname);
+          if (wifeParentInfo != null) {
+            final father = _Person(id: '@I${pCounter++}@', givenName: wifeParentInfo.fatherName, surname: matriarchOriginalSurname, sex: 'M');
+            father.birthPlace = 'Felanitx';
+            final mother = _Person(id: '@I${pCounter++}@', givenName: wifeParentInfo.motherName, surname: wifeParentInfo.motherSurname, sex: 'F');
+            mother.birthPlace = 'Felanitx';
+            people[father.id] = father;
+            people[mother.id] = mother;
 
-  Individual _processPatriarchBlock(String nameLine, String parentsLine, Individual ancestor, String? marriageDate, int? age) {
-      final nameParts = nameLine.split(',');
-      final surname = nameParts[0].trim();
-      final firstName = nameParts.length > 1 ? nameParts[1].trim() : '';
+            final mFamily = _Family(id: '@F${fCounter++}@')
+              ..husbandId = father.id
+              ..wifeId = mother.id
+              ..childrenIds.add(matriarch.id);
+            father.famsId = mother.famsId = mFamily.id;
+            matriarch.famcId = mFamily.id;
+            families[mFamily.id] = mFamily;
 
-      final parentsRegex = RegExp(r'de (.*) i de (.*) \(.*\)');
-      final parentsMatch = parentsRegex.firstMatch(parentsLine);
+            if (wifeParentInfo.motherSurname.isNotEmpty) {
+                matriarch.surname = '${matriarch.surname} ${wifeParentInfo.motherSurname}';
+            }
+          }
+        }
+      } else if (line.startsWith('–') || line.startsWith('-')) { // Children
+        final childLine = line.substring(1).trim();
+        final childName = extractChildName(childLine);
+        final patriarchFirstSurname = patriarch?.surname.split(' ').first ?? currentLineageName;
+        final matriarchFirstSurname = matriarch?.surname.split(' ').first ?? '';
+        final childSurname = '$patriarchFirstSurname $matriarchFirstSurname'.trim();
 
-      Individual? father;
-      Individual? mother;
+        final child = _Person(id: '@I${pCounter++}@', givenName: childName, surname: childSurname);
+        child.birthPlace = 'Felanitx';
 
-      if (parentsMatch != null) {
-          final fatherFirstName = parentsMatch.group(1)!.trim();
-          father = _createIndividual(firstName: fatherFirstName, surname: surname, sex: 'M');
-          
-          final ancestorFamily = _createFamily(husband: ancestor);
-          _linkChildToFamily(child: father, family: ancestorFamily);
+        child.sex = inferSex(child.givenName);
+        child.birthDate = extractDate(childLine);
+        child.deathDate = extractDeathDate(childLine);
+        if (child.deathDate != null) child.deathPlace = 'Felanitx';
 
-          final motherFullName = parentsMatch.group(2)!.trim();
-          final motherNameParts = motherFullName.split(' ');
-          final motherSurname = motherNameParts.last;
-          final motherFirstName = motherNameParts.sublist(0, motherNameParts.length - 1).join(' ');
-          mother = _createIndividual(firstName: motherFirstName, surname: motherSurname, sex: 'F');
-      }
+        child.notes = extractChildNotes(childLine, childName);
 
-      final patriarch = _createIndividual(firstName: firstName, surname: '$surname ${mother?.surname ?? ''}'.trim(), sex: 'M');
-      if (marriageDate != null && age != null) {
-          patriarch.birthDate = _calculateBirthDate(marriageDate, age);
-      }
-      
-      if (father != null && mother != null) {
-          final parentsFamily = _createFamily(husband: father, wife: mother);
-          _linkChildToFamily(child: patriarch, family: parentsFamily);
-      }
-      return patriarch;
-  }
+        child.famcId = currentFamily?.id;
 
-  void _processMarriageBlock(Match marriageMatch, Individual patriarch, String marriageDateStr) {
-    final wifeName = marriageMatch.group(2)!.trim();
-    final wifeFatherName = marriageMatch.group(3)!.trim();
-    final wifeMotherFullName = marriageMatch.group(4)!.trim();
-    final wifeAge = int.tryParse(marriageMatch.group(5)!) ?? 0;
+        people[child.id] = child;
+        if (currentFamily != null) {
+            currentFamily.childrenIds.add(child.id);
+        }
+      } else if (line.contains(',') && i + 1 < lines.length) { // Patriarch
+        final nameParts = line.split(',');
+        patriarch = _Person(id: '@I${pCounter++}@', surname: nameParts[0].trim(), givenName: nameParts[1].trim());
+        patriarch.birthPlace = 'Felanitx';
+        patriarch.sex = inferSex(patriarch.givenName);
+        patriarch.deathDate = extractDeathDate(line);
+        if (patriarch.deathDate != null) patriarch.deathPlace = 'Felanitx';
+        
+        final notesMatch = RegExp(r',\s*([a-zç]+)$|\(([^)]+)\)$').firstMatch(line);
+        if (notesMatch != null) {
+            patriarch.notes = (patriarch.notes ?? '') + (notesMatch.group(1) ?? notesMatch.group(2) ?? '').trim();
+        }
+        
+        people[patriarch.id] = patriarch;
 
-    final wifeNameParts = wifeName.split(' ');
-    final wifeSurname = wifeNameParts.last;
-    final wifeFirstName = wifeNameParts.sublist(0, wifeNameParts.length-1).join(' ');
+        _Person? patriarchFather;
 
-    final wifeMotherNameParts = wifeMotherFullName.split(' ');
-    final wifeMotherSurname = wifeMotherNameParts.last;
-    final wifeMotherFirstName = wifeMotherNameParts.sublist(0, wifeMotherNameParts.length - 1).join(' ');
+        final nextLine = lines[i + 1].trim();
+        if (nextLine.startsWith('de')) {
+            i++; 
+            line = lines[i];
+            patriarch.ageAtMarriage = extractAge(line);
 
-    final matriarch = _createIndividual(
-      firstName: wifeFirstName,
-      surname: '$wifeSurname $wifeMotherSurname'.trim(),
-      sex: 'F',
-    );
-    matriarch.birthDate = _calculateBirthDate(marriageDateStr, wifeAge);
-    
-    final matriarchFather = _createIndividual(firstName: wifeFatherName, surname: wifeSurname, sex: 'M');
-    final matriarchMother = _createIndividual(firstName: wifeMotherFirstName, surname: wifeMotherSurname, sex: 'F');
-    
-    final matriarchParentsFamily = _createFamily(husband: matriarchFather, wife: matriarchMother);
-    _linkChildToFamily(child: matriarch, family: matriarchParentsFamily);
+            final testamentInfo = extractTestamentNotes(line);
+            if (testamentInfo != null) {
+                final notes = testamentInfo.rawText.replaceAll(RegExp(r'\s*T\.\s*'), '');
+                patriarch.notes = (patriarch.notes ?? '') + notes;
+                patriarch.deathDate = 'BEF ${testamentInfo.date}';
+                patriarch.deathPlace = 'Felanitx';
+            }
 
-    final marriageFamily = _createFamily(husband: patriarch, wife: matriarch);
-    marriageFamily.marriageDate = _formatDate(marriageDateStr);
-  }
+            var parentLine = line;
+            if (testamentInfo != null) {
+                final testamentIndex = parentLine.indexOf(testamentInfo.rawText);
+                if (testamentIndex != -1) {
+                    parentLine = parentLine.substring(0, testamentIndex).trim();
+                }
+            }
+            final plusIndex = parentLine.indexOf('+');
+            if (plusIndex != -1) {
+                patriarch.deathDate ??= extractDeathDate(parentLine);
+                if (patriarch.deathDate != null) patriarch.deathPlace ??= 'Felanitx';
+            }
+            parentLine = parentLine.replaceAll(RegExp(r'\.$'), '').trim();
 
-  String _calculateBirthDate(String marriageDateStr, int age) {
-    final dateParts = marriageDateStr.replaceAll(',', '-').split('-');
-    if (dateParts.length != 3) return '';
+            final patriarchOriginalSurname = patriarch.surname;
+            final parentInfo = extractParentage(parentLine, patriarch.givenName, patriarchOriginalSurname);
+            if (parentInfo != null) {
+                final father = _Person(id: '@I${pCounter++}@', givenName: parentInfo.fatherName, surname: patriarchOriginalSurname, sex: 'M');
+                father.birthPlace = 'Felanitx';
+                patriarchFather = father;
+                final mother = _Person(id: '@I${pCounter++}@', givenName: parentInfo.motherName, surname: parentInfo.motherSurname, sex: 'F');
+                mother.birthPlace = 'Felanitx';
+                people[father.id] = father;
+                people[mother.id] = mother;
 
-    String day, month, yearStr;
-     if (dateParts[0].length == 4) { // Y-M-D
-        yearStr = dateParts[0];
-        month = dateParts[1];
-        day = dateParts[2];
-    } else { // D-M-Y
-        day = dateParts[0];
-        month = dateParts[1];
-        yearStr = dateParts[2];
-    }
+                final pFamily = _Family(id: '@F${fCounter++}@')
+                    ..husbandId = father.id
+                    ..wifeId = mother.id
+                    ..childrenIds.add(patriarch.id);
+                father.famsId = mother.famsId = pFamily.id;
+                patriarch.famcId = pFamily.id;
+                families[pFamily.id] = pFamily;
 
-    final marriageYear = int.parse(yearStr);
-    final birthYear = marriageYear - age;
-    final monthAbbr = _getGedcomMonth(month);
+                if (parentInfo.motherSurname.isNotEmpty) {
+                    patriarch.surname = '${patriarch.surname} ${parentInfo.motherSurname}';
+                }
+            }
+        }
 
-    return 'BEF $day $monthAbbr $birthYear'.toUpperCase();
-  }
+        if (currentLineageName != null && lineageAncestors.containsKey(currentLineageName)) {
+            final ancestorFamily = lineageAncestors[currentLineageName]!;
+            final personToLink = patriarchFather ?? patriarch;
 
-  String _formatDate(String dateStr) {
-    final dateParts = dateStr.replaceAll(',', '-').split('-');
-    if (dateParts.length != 3) return dateStr;
+            if (!ancestorFamily.childrenIds.contains(personToLink.id)) {
+                ancestorFamily.childrenIds.add(personToLink.id);
+                personToLink.famcId = ancestorFamily.id;
+            }
+        }
 
-    String day, month, year;
-    if (dateParts[0].length == 4) { // Y-M-D
-      year = dateParts[0];
-      month = dateParts[1];
-      day = dateParts[2];
-    } else { // D-M-Y
-      day = dateParts[0];
-      month = dateParts[1];
-      year = dateParts[2];
-    }
-
-    final monthAbbr = _getGedcomMonth(month);
-    return '$day $monthAbbr $year'.toUpperCase();
-  }
-
-  String _getGedcomMonth(String month) {
-    const months = {
-      '1': 'JAN', '2': 'FEB', '3': 'MAR', '4': 'APR', '5': 'MAY', '6': 'JUN',
-      '7': 'JUL', '8': 'AUG', '9': 'SEP', '10': 'OCT', '11': 'NOV', '12': 'DEC'
-    };
-    return months[month.trim()] ?? month;
-  }
-
-  void _reset() {
-    _individuals.clear();
-    _families.clear();
-    _individualCounter = 0;
-    _familyCounter = 0;
-  }
-
-  Individual _createIndividual({String? firstName, String? surname, String sex = 'U'}) {
-    final ind = Individual(id: '@I${_individualCounter++}@', sex: sex)
-      ..firstName = firstName
-      ..surname = surname;
-    _individuals.add(ind);
-    return ind;
-  }
-
-  Family _createFamily({Individual? husband, Individual? wife}) {
-    final fam = Family(id: '@F${_familyCounter++}@')
-      ..husbandId = husband?.id
-      ..wifeId = wife?.id;
-    husband?.spouseFamilyIds.add(fam.id);
-    wife?.spouseFamilyIds.add(fam.id);
-    _families.add(fam);
-    return fam;
-  }
-
-  void _linkChildToFamily({required Individual child, required Family family}) {
-    child.parentFamilyId = family.id;
-    family.childrenIds.add(child.id);
-  }
-
-  String _generateGedcom() {
-    final buffer = StringBuffer();
-
-    buffer.writeln('0 HEAD');
-    buffer.writeln('1 SOUR Genealogic_Balear');
-    buffer.writeln('1 GEDC');
-    buffer.writeln('2 VERS 5.5.1');
-    buffer.writeln('2 FORM LINEAGE-LINKED');
-    buffer.writeln('1 CHAR UTF-8');
-    buffer.writeln('1 LANG Catalan');
-
-    for (final individual in _individuals) {
-      buffer.writeln('0 ${individual.id} INDI');
-      buffer.writeln('1 NAME ${individual.gedcomName}');
-      if (individual.sex != 'U') {
-        buffer.writeln('1 SEX ${individual.sex}');
-      }
-      if (individual.birthDate != null && individual.birthDate!.isNotEmpty) {
-        buffer.writeln('1 BIRT');
-        buffer.writeln('2 DATE ${individual.birthDate}');
-      }
-      if (individual.parentFamilyId != null) {
-        buffer.writeln('1 FAMC ${individual.parentFamilyId}');
-      }
-      for (final famsId in individual.spouseFamilyIds) {
-        buffer.writeln('1 FAMS $famsId');
+        currentFamily = _Family(id: '@F${fCounter++}@')..husbandId = patriarch.id;
+        patriarch.famsId = currentFamily.id;
+        families[currentFamily.id] = currentFamily;
       }
     }
+    return _generateGedcom(people, families);
+  }
 
-    for (final family in _families) {
-      buffer.writeln('0 ${family.id} FAM');
-      if (family.husbandId != null) {
-        buffer.writeln('1 HUSB ${family.husbandId}');
+
+  String _generateGedcom(Map<String, _Person> people, Map<String, _Family> families) {
+    final buffer = StringBuffer()..writeln('0 HEAD')..writeln('1 SOUR GenealogicBalear')..writeln('1 CHAR UTF-8');
+    final sortedPeople = people.values.toList()..sort((a, b) => a.id.compareTo(b.id));
+    final sortedFamilies = families.values.toList()..sort((a, b) => a.id.compareTo(b.id));
+
+    for (final p in sortedPeople) {
+      buffer.writeln('0 ${p.id} INDI');
+      buffer.writeln('1 NAME ${p.givenName} /${p.surname}/');
+      if (p.sex != null) {
+        buffer.writeln('1 SEX ${p.sex}');
       }
-      if (family.wifeId != null) {
-        buffer.writeln('1 WIFE ${family.wifeId}');
-      }
-      if (family.childrenIds.isNotEmpty) {
-        for (final childId in family.childrenIds) {
-          buffer.writeln('1 CHIL $childId');
+
+      String? finalBirthDate = p.birthDate;
+      if (p.ageAtMarriage != null && p.famsId != null && p.birthDate == null) {
+        final family = families[p.famsId];
+        if (family?.marriageDate != null) {
+          final year = _getYearFromDate(family!.marriageDate!);
+          if (year != null) {
+              final birthYear = year - p.ageAtMarriage!;
+              finalBirthDate = 'BEF $birthYear';
+          }
         }
       }
-      if (family.marriageDate != null) {
-        buffer.writeln('1 MARR');
-        buffer.writeln('2 DATE ${family.marriageDate}');
+
+      if (finalBirthDate != null || p.birthPlace != null) {
+        buffer.writeln('1 BIRT');
+        if (finalBirthDate != null) {
+            buffer.writeln('2 DATE $finalBirthDate');
+        }
+        if (p.birthPlace != null) {
+            buffer.writeln('2 PLAC ${p.birthPlace}');
+        }
+      }
+
+      if (p.deathDate != null) {
+        buffer.writeln('1 DEAT');
+        buffer.writeln('2 DATE ${p.deathDate}');
+        if (p.deathPlace != null) {
+            buffer.writeln('2 PLAC ${p.deathPlace}');
+        }
+      }
+
+      if (p.notes != null && p.notes!.trim().isNotEmpty) {
+          p.notes!.trim().split('\n').forEach((note) {
+              buffer.writeln('1 NOTE $note');
+          });
+      }
+      if (p.famcId != null) {
+        buffer.writeln('1 FAMC ${p.famcId}');
+      }
+      if (p.famsId != null) {
+        buffer.writeln('1 FAMS ${p.famsId}');
       }
     }
+    for (final f in sortedFamilies) {
+      buffer.writeln('0 ${f.id} FAM');
+      if (f.husbandId != null) {
+        buffer.writeln('1 HUSB ${f.husbandId}');
+      }
+      if (f.wifeId != null) {
+        buffer.writeln('1 WIFE ${f.wifeId}');
+      }
 
+      if (f.marriageDate != null && f.marriageDate!.trim().isNotEmpty || f.marriagePlace != null) {
+          buffer.writeln('1 MARR');
+          if (f.marriageDate != null && f.marriageDate!.trim().isNotEmpty) {
+              buffer.writeln('2 DATE ${f.marriageDate}');
+          }
+          if (f.marriagePlace != null) {
+              buffer.writeln('2 PLAC ${f.marriagePlace}');
+          }
+      }
+      
+      final sortedChildren = f.childrenIds..sort();
+      for (final c in sortedChildren) {
+        buffer.writeln('1 CHIL $c');
+      }
+    }
     buffer.writeln('0 TRLR');
-
     return buffer.toString();
+  }
+
+  int? _getYearFromDate(String date) {
+      final yearRegex = RegExp(r'(\d{4})');
+      final match = yearRegex.firstMatch(date);
+      if (match != null) {
+          return int.tryParse(match.group(1)!);
+      }
+      return null;
   }
 }

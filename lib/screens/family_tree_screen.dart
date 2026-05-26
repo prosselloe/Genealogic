@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:genealogic/providers/gedcom_provider.dart';
-import 'package:genealogic/screens/family_detail_screen.dart';
-import 'package:genealogic/screens/family_relations_screen.dart';
-import 'package:genealogic/screens/info_screen.dart';
-import 'package:genealogic/screens/map_screen.dart';
-import 'package:genealogic/widgets/heraldic_shield_widget.dart';
+import 'package:genealogic_balear/providers/gedcom_provider.dart';
+import 'package:genealogic_balear/screens/converter_screen.dart';
+import 'package:genealogic_balear/screens/family_detail_screen.dart';
+import 'package:genealogic_balear/screens/family_relations_screen.dart';
+import 'package:genealogic_balear/screens/info_screen.dart';
+import 'package:genealogic_balear/screens/map_screen.dart';
+import 'package:genealogic_balear/widgets/heraldic_shield_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:genealogic/gedcom_parser.dart';
-import 'package:genealogic/main.dart';
+import 'package:genealogic_balear/gedcom_parser.dart';
+import 'package:genealogic_balear/main.dart';
 
 class FamilyTreeScreen extends StatefulWidget {
-  const FamilyTreeScreen({super.key});
+  final String? highlightedPersonId;
+  const FamilyTreeScreen({super.key, this.highlightedPersonId});
 
   @override
   State<FamilyTreeScreen> createState() => _FamilyTreeScreenState();
@@ -18,6 +20,51 @@ class FamilyTreeScreen extends StatefulWidget {
 
 class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
   String? _selectedSurname;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.highlightedPersonId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToHighlightedPerson();
+      });
+    }
+  }
+
+  void _scrollToHighlightedPerson() {
+    final gedcomProvider = Provider.of<GedcomProvider>(context, listen: false);
+    final parser = gedcomProvider.parser!;
+    final families = parser.families;
+
+    int? targetIndex;
+
+    for (int i = 0; i < families.length; i++) {
+      final family = families[i];
+      final husbandIds = family['husbs'] as List<dynamic>? ?? [];
+      final wifeIds = family['wifes'] as List<dynamic>? ?? [];
+      final childIds = family['chils'] as List<dynamic>? ?? [];
+
+      if (husbandIds.contains(widget.highlightedPersonId) ||
+          wifeIds.contains(widget.highlightedPersonId) ||
+          childIds.contains(widget.highlightedPersonId)) {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    if (targetIndex != null) {
+      // Approximate height of each item, adjust as needed
+      const double itemHeight = 100.0;
+      final double offset = targetIndex * itemHeight;
+
+      _scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +72,6 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
     final parser = gedcomProvider.parser!;
     final surnames = gedcomProvider.surnames;
     final themeProvider = Provider.of<ThemeProvider>(context);
-
 
     final filteredFamilies = parser.families.where((family) {
       final familyName = family['name'] as String? ?? '';
@@ -38,8 +84,8 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
         return false;
       }
 
-      final husbandIds = family['husbs'] as List<String>? ?? [];
-      final wifeIds = family['wifes'] as List<String>? ?? [];
+      final husbandIds = family['husbs'] as List<dynamic>? ?? [];
+      final wifeIds = family['wifes'] as List<dynamic>? ?? [];
       if (husbandIds.isEmpty || wifeIds.isEmpty) {
         return false;
       }
@@ -60,6 +106,16 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
         title: const Text('Arbres familiars'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.transform, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConverterScreen()),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.info_outline, color: Colors.white),
             onPressed: () {
               Navigator.push(
@@ -69,8 +125,14 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
             },
           ),
           IconButton(
-            icon: Icon(themeProvider.themeMode == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode, color: Colors.white),
-            tooltip: themeProvider.themeMode == ThemeMode.dark ? 'Tema clar' : 'Tema fosc',
+            icon: Icon(
+                themeProvider.themeMode == ThemeMode.dark
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+                color: Colors.white),
+            tooltip: themeProvider.themeMode == ThemeMode.dark
+                ? 'Tema clar'
+                : 'Tema fosc',
             onPressed: () {
               themeProvider.toggleTheme();
             },
@@ -122,15 +184,29 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
         ],
       ),
       body: ListView.builder(
+        controller: _scrollController,
         itemCount: filteredFamilies.length,
         itemBuilder: (context, index) {
           final family = filteredFamilies[index];
           final familyName = family['name'] as String;
-          final surnames = familyName.split(' - ').map((s) => s.trim()).toList();
+          final surnames =
+              familyName.split(' - ').map((s) => s.trim()).toList();
           final firstSurname = surnames[0];
           final secondSurname = surnames[1];
 
+          final husbandIds = family['husbs'] as List<dynamic>? ?? [];
+          final wifeIds = family['wifes'] as List<dynamic>? ?? [];
+          final childIds = family['chils'] as List<dynamic>? ?? [];
+
+          bool isHighlighted = false;
+          if (widget.highlightedPersonId != null) {
+            isHighlighted = husbandIds.contains(widget.highlightedPersonId) ||
+                wifeIds.contains(widget.highlightedPersonId) ||
+                childIds.contains(widget.highlightedPersonId);
+          }
+
           return Card(
+            color: isHighlighted ? Theme.of(context).highlightColor : null,
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
               contentPadding:
@@ -176,7 +252,24 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
   final GedcomParser parser;
   final List<Map<String, dynamic>> individuals;
 
+  String _surnameFilter = '';
+  String _startDateFilter = '';
+  String _endDateFilter = '';
+  String _sortCriteria = 'id'; // Default sort by ID
+
+  final _surnameController = TextEditingController();
+  final _startDateController = TextEditingController();
+  final _endDateController = TextEditingController();
+
   _IndividualSearchDelegate(this.parser, this.individuals);
+
+  @override
+  void close(BuildContext context, String result) {
+    _surnameController.dispose();
+    _startDateController.dispose();
+    _endDateController.dispose();
+    super.close(context, result);
+  }
 
   @override
   String get searchFieldLabel => 'Cerca individus';
@@ -207,6 +300,7 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
         icon: const Icon(Icons.clear, color: Colors.white),
         onPressed: () {
           query = '';
+          showSuggestions(context);
         },
       ),
     ];
@@ -232,63 +326,290 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
     return _buildSearchResults(context);
   }
 
+  String? _getEventDate(Map<String, dynamic>? event) {
+    if (event == null) return null;
+    return event['date'] as String?;
+  }
+
   Widget _buildSearchResults(BuildContext context) {
-    final suggestions = individuals.where((individual) {
-      final name = individual['name'] as String? ?? '';
-      return name.toLowerCase().contains(query.toLowerCase());
-    }).toList();
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        final suggestions = individuals.where((individual) {
+          final name = individual['givn'] as String? ?? '';
+          final surname = individual['surn'] as String? ?? '';
 
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          final individual = suggestions[index];
-          final name = individual['name'] as String;
+          final birthDate =
+              _getYearFromDate(_getEventDate(individual['birt']));
+          final deathDate =
+              _getYearFromDate(_getEventDate(individual['deat']));
 
-          final photos =
-              individual['photos'] as List<Map<String, dynamic>>? ?? [];
-          final photoUrl =
-              photos.isNotEmpty ? photos.first['file'] as String? : null;
+          final queryMatch = query.isEmpty ||
+              name.toLowerCase().contains(query.toLowerCase()) ||
+              surname.toLowerCase().contains(query.toLowerCase());
+          final surnameMatch = _surnameFilter.isEmpty ||
+              surname.toLowerCase().contains(_surnameFilter.toLowerCase());
 
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.grey[300],
-                backgroundImage: (photoUrl != null &&
-                        Uri.tryParse(photoUrl)?.isAbsolute == true)
-                    ? NetworkImage(photoUrl)
-                    : null,
-                child: (photoUrl == null ||
-                        Uri.tryParse(photoUrl)?.isAbsolute != true)
-                    ? Icon(Icons.person, size: 24, color: Colors.grey[600])
-                    : null,
-              ),
-              title: Text(name),
-              onTap: () {
-                final familyId = individual['famc'] as String? ??
-                    (individual['fams'] as List<String>?)?.first;
-                if (familyId != null) {
-                  final family = parser.families.firstWhere(
-                      (f) => f['id'] == familyId,
-                      orElse: () => <String, dynamic>{});
-                  if (family.isNotEmpty) {
-                    close(context, individual['id'] ?? '');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            FamilyDetailScreen(family: family),
+          final startDate = int.tryParse(_startDateFilter);
+          final endDate = int.tryParse(_endDateFilter);
+
+          bool dateMatch = true;
+          if (startDate != null || endDate != null) {
+            final sDate = startDate ?? -9999;
+            final eDate = endDate ?? 9999;
+
+            final bDate = birthDate;
+            final dDate = deathDate;
+
+            if (bDate != null && dDate != null) {
+              dateMatch = (bDate >= sDate && bDate <= eDate) ||
+                  (dDate >= sDate && dDate <= eDate) ||
+                  (bDate <= sDate && dDate >= eDate);
+            } else if (bDate != null) {
+              dateMatch = bDate >= sDate && bDate <= eDate;
+            } else if (dDate != null) {
+              dateMatch = dDate >= sDate && dDate <= eDate;
+            } else {
+              dateMatch = false;
+            }
+          }
+
+          return queryMatch && surnameMatch && dateMatch;
+        }).toList();
+
+        suggestions.sort((a, b) {
+          if (_sortCriteria == 'id') {
+            return (a['id'] as String? ?? '')
+                .compareTo(b['id'] as String? ?? '');
+          } else if (_sortCriteria == 'surname') {
+            return (a['surn'] as String? ?? '')
+                .compareTo(b['surn'] as String? ?? '');
+          } else if (_sortCriteria == 'birth') {
+            final birthA = _getYearFromDate(_getEventDate(a['birt']));
+            final birthB = _getYearFromDate(_getEventDate(b['birt']));
+            if (birthA != null && birthB != null) {
+              return birthA.compareTo(birthB);
+            } else if (birthA != null) {
+              return -1;
+            } else if (birthB != null) {
+              return 1;
+            }
+            return 0;
+          } else if (_sortCriteria == 'death') {
+            final deathA = _getYearFromDate(_getEventDate(a['deat']));
+            final deathB = _getYearFromDate(_getEventDate(b['deat']));
+            if (deathA != null && deathB != null) {
+              return deathA.compareTo(deathB);
+            } else if (deathA != null) {
+              return -1;
+            } else if (deathB != null) {
+              return 1;
+            }
+            return 0;
+          }
+          return 0;
+        });
+
+        return Column(
+          children: [
+            _buildFilterAndSortControls(context, setState),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: ListView.builder(
+                  itemCount: suggestions.length,
+                  itemBuilder: (context, index) {
+                    final individual = suggestions[index];
+                    final name = individual['givn'] as String? ?? '';
+                    final surname = individual['surn'] as String? ?? '';
+
+                    String? photoUrl;
+                    final photosRaw = individual['photos'];
+                    if (photosRaw is List && photosRaw.isNotEmpty) {
+                      final firstPhoto = photosRaw.first;
+                      if (firstPhoto is Map) {
+                        photoUrl = firstPhoto['file'] as String?;
+                      }
+                    }
+
+                    final birthDate = _getEventDate(individual['birt']);
+                    final deathDate = _getEventDate(individual['deat']);
+                    String subtitle = '';
+                    if (birthDate != null && birthDate.isNotEmpty) {
+                      subtitle += '⚬ ${birthDate.trim()}';
+                    }
+                    if (deathDate != null && deathDate.isNotEmpty) {
+                      subtitle += (subtitle.isNotEmpty
+                          ? ' / ✝ ${deathDate.trim()}'
+                          : '✝ ${deathDate.trim()}');
+                    }
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey[300],
+                          backgroundImage: (photoUrl != null &&
+                                  Uri.tryParse(photoUrl)?.isAbsolute == true)
+                              ? NetworkImage(photoUrl)
+                              : null,
+                          child: (photoUrl == null ||
+                                  Uri.tryParse(photoUrl)?.isAbsolute != true)
+                              ? Icon(Icons.person,
+                                  size: 24, color: Colors.grey[600])
+                              : null,
+                        ),
+                        title:
+                            Text('${individual['id']}: $name $surname'.trim()),
+                        subtitle:
+                            Text(subtitle.isEmpty ? 'Sense dates' : subtitle),
+                        onTap: () {
+                          final famsList =
+                              individual['fams'] as List<dynamic>?;
+                          final familyId = individual['famc'] as String? ??
+                              (famsList != null && famsList.isNotEmpty
+                                  ? famsList.first as String?
+                                  : null);
+                          if (familyId != null) {
+                            final family = parser.families.firstWhere(
+                                (f) => f['id'] == familyId,
+                                orElse: () => <String, dynamic>{});
+                            if (family.isNotEmpty) {
+                              close(context, individual['id'] ?? '');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FamilyDetailScreen(family: family),
+                                ),
+                              );
+                            }
+                          }
+                        },
                       ),
                     );
-                  }
-                }
-              },
+                  },
+                ),
+              ),
             ),
-          );
-        },
+          ],
+        );
+      },
+    );
+  }
+
+  int? _getYearFromDate(String? date) {
+    if (date == null) return null;
+    final yearMatch = RegExp(r'(\d{4})').firstMatch(date);
+    return yearMatch != null ? int.tryParse(yearMatch.group(1)!) : null;
+  }
+
+  Widget _buildFilterAndSortControls(
+      BuildContext context, StateSetter setState) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _surnameController,
+                  decoration: const InputDecoration(labelText: 'Llinatge'),
+                  onChanged: (value) {
+                    setState(() => _surnameFilter = value);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextField(
+                  controller: _startDateController,
+                  decoration: const InputDecoration(labelText: 'Any inici'),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    setState(() => _startDateFilter = value);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextField(
+                  controller: _endDateController,
+                  decoration: const InputDecoration(labelText: 'Any fi'),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    setState(() => _endDateFilter = value);
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Wrap(
+                  spacing: 8.0,
+                  runSpacing: 4.0,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => setState(() => _sortCriteria = 'id'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _sortCriteria == 'id'
+                              ? Theme.of(context).colorScheme.primary
+                              : null),
+                      child: const Text('ID'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          setState(() => _sortCriteria = 'surname'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _sortCriteria == 'surname'
+                              ? Theme.of(context).colorScheme.primary
+                              : null),
+                      child: const Text('Llinatge'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          setState(() => _sortCriteria = 'birth'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _sortCriteria == 'birth'
+                              ? Theme.of(context).colorScheme.primary
+                              : null),
+                      child: const Text('Naixement'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          setState(() => _sortCriteria = 'death'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _sortCriteria == 'death'
+                              ? Theme.of(context).colorScheme.primary
+                              : null),
+                      child: const Text('Defunció'),
+                    ),
+                  ],
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _surnameController.clear();
+                    _startDateController.clear();
+                    _endDateController.clear();
+                    _surnameFilter = '';
+                    _startDateFilter = '';
+                    _endDateFilter = '';
+                    _sortCriteria = 'id'; // Reset to ID
+                  });
+                },
+                child: const Text('Netejar'),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

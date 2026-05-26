@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:genealogic/providers/gedcom_provider.dart';
-import 'package:genealogic/screens/family_tree_screen.dart';
+import 'package:genealogic_balear/providers/gedcom_provider.dart';
+import 'package:genealogic_balear/screens/family_tree_screen.dart';
 
 void main() {
   runApp(
@@ -141,7 +141,7 @@ class GenealogicApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
-          title: 'Genealogic',
+          title: 'Genealogic Balear',
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: themeProvider.themeMode,

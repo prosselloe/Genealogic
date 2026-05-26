@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:genealogic/gedcom_parser.dart';
-import 'package:genealogic/providers/gedcom_provider.dart';
-import 'package:genealogic/screens/family_detail_screen.dart';
-import 'package:genealogic/widgets/heraldic_shield_widget.dart';
+import 'package:genealogic_balear/gedcom_parser.dart';
+import 'package:genealogic_balear/providers/gedcom_provider.dart';
+import 'package:genealogic_balear/screens/family_detail_screen.dart';
+import 'package:genealogic_balear/widgets/heraldic_shield_widget.dart';
 import 'package:graphview/GraphView.dart';
 import 'dart:developer' as developer;
 import 'package:provider/provider.dart';
@@ -86,33 +86,8 @@ class FamilyRelationsScreen extends StatelessWidget {
     return graph;
   }
 
-  String _getSurname(String? fullName) {
-    try {
-      if (fullName == null || fullName.trim().isEmpty) {
-        return '';
-      }
-      final name = fullName.trim();
-      final parts = name.split('/');
-      if (parts.length > 1 && parts[1].trim().isNotEmpty) {
-        return parts[1].trim();
-      }
-      final words = name.split(' ').where((w) => w.isNotEmpty).toList();
-      if (words.length > 1) {
-        return words.last;
-      }
-      return ''; // No surname found
-    } catch (e, s) {
-      developer.log(
-        'Error extracting surname from \'$fullName\'',
-        name: 'FamilyRelationsScreen',
-        error: e,
-        stackTrace: s,
-      );
-      return ''; // Return empty on error
-    }
-  }
-
-  Widget _buildFamilyNode(BuildContext context, GedcomParser parser, Map<String, dynamic> fam) {
+  Widget _buildFamilyNode(
+      BuildContext context, GedcomParser parser, Map<String, dynamic> fam) {
     try {
       final familyName = fam['name'] as String? ?? 'Família ${fam['id']}';
       final isCurrentFamily = fam['id'] == family['id'];
@@ -120,14 +95,9 @@ class FamilyRelationsScreen extends StatelessWidget {
       final parentFamilies = _getParentFamiliesFor(parser, fam);
       final childFamilies = _getChildFamiliesFor(parser, fam);
 
-      final husbandId = (fam['husbs'] as List<String>?)?.firstOrNull;
-      final wifeId = (fam['wifes'] as List<String>?)?.firstOrNull;
-
-      final husband = husbandId != null ? parser.individuals[husbandId] : null;
-      final wife = wifeId != null ? parser.individuals[wifeId] : null;
-
-      final husbandSurname = _getSurname(husband?['name'] as String?);
-      final wifeSurname = _getSurname(wife?['name'] as String?);
+      final surnames = familyName.split(' - ').map((s) => s.trim()).toList();
+      final firstSurname = surnames.isNotEmpty ? surnames[0] : null;
+      final secondSurname = surnames.length > 1 ? surnames[1] : null;
 
       return GestureDetector(
           onTap: () {
@@ -146,7 +116,8 @@ class FamilyRelationsScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: isCurrentFamily
-                  ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
+                  ? BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2)
                   : BorderSide.none,
             ),
             child: Padding(
@@ -191,25 +162,26 @@ class FamilyRelationsScreen extends StatelessWidget {
                           : const SizedBox(width: 48),
                     ],
                   ),
-                  if (husbandSurname.isNotEmpty || wifeSurname.isNotEmpty)
+                  if (firstSurname != null || secondSurname != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (husbandSurname.isNotEmpty)
-                            HeraldicShieldWidget(surname: husbandSurname, size: 60),
-                          if (husbandSurname.isNotEmpty && wifeSurname.isNotEmpty)
+                          if (firstSurname != null)
+                            HeraldicShieldWidget(surname: firstSurname, size: 60),
+                          if (firstSurname != null && secondSurname != null)
                             const SizedBox(width: 12),
-                          if (wifeSurname.isNotEmpty)
-                            HeraldicShieldWidget(surname: wifeSurname, size: 60),
+                          if (secondSurname != null)
+                            HeraldicShieldWidget(surname: secondSurname, size: 60),
                         ],
                       ),
                     ),
                   Text(
                     familyName,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: isCurrentFamily ? FontWeight.bold : FontWeight.normal,
+                          fontWeight:
+                              isCurrentFamily ? FontWeight.bold : FontWeight.normal,
                         ),
                     textAlign: TextAlign.center,
                   ),
@@ -240,11 +212,12 @@ class FamilyRelationsScreen extends StatelessWidget {
     }
   }
 
-  List<Map<String, dynamic>> _getParentFamiliesFor(GedcomParser parser, Map<String, dynamic> fam) {
-    final husbandId = (fam['husbs'] as List<String>?)?.firstOrNull;
-    final wifeId = (fam['wifes'] as List<String>?)?.firstOrNull;
+  List<Map<String, dynamic>> _getParentFamiliesFor(
+      GedcomParser parser, Map<String, dynamic> fam) {
+    final husbandId = (fam['husbs'] as List<dynamic>?)?.firstOrNull;
+    final wifeId = (fam['wifes'] as List<dynamic>?)?.firstOrNull;
 
-    final parentFamilies = <Map<String, dynamic>>{};
+    final parentFamilies = <Map<String, dynamic>>[];
 
     if (husbandId != null) {
       final husband = parser.individuals[husbandId];
@@ -272,20 +245,23 @@ class FamilyRelationsScreen extends StatelessWidget {
       }
     }
 
-    return parentFamilies.toList();
+    return parentFamilies;
   }
 
-  List<Map<String, dynamic>> _getChildFamiliesFor(GedcomParser parser, Map<String, dynamic> fam) {
-    final childIds = fam['chils'] as List<String>? ?? [];
+  List<Map<String, dynamic>> _getChildFamiliesFor(
+      GedcomParser parser, Map<String, dynamic> fam) {
+    final childIds = fam['chils'] as List<dynamic>? ?? [];
     final childFamilies = <String, Map<String, dynamic>>{};
 
     for (var childId in childIds) {
       final child = parser.individuals[childId];
-      final childFamsIds = child?['fams'] as List<String>? ?? [];
+      final childFamsIds = child?['fams'] as List<dynamic>? ?? [];
       for (var famsId in childFamsIds) {
-        if (childFamilies.containsKey(famsId)) continue;
-        final childFam =
-            parser.families.firstWhere((f) => f['id'] == famsId, orElse: () => {});
+        if (childFamilies.containsKey(famsId)) {
+          continue;
+        }
+        final childFam = parser.families
+            .firstWhere((f) => f['id'] == famsId, orElse: () => {});
         if (childFam.isNotEmpty) {
           childFamilies[famsId] = childFam;
         }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:genealogic/models/person.dart';
-import 'package:genealogic/providers/gedcom_provider.dart';
-import 'package:genealogic/screens/person_detail_screen.dart';
+import 'package:genealogic_balear/models/person.dart';
+import 'package:genealogic_balear/providers/gedcom_provider.dart';
+import 'package:genealogic_balear/screens/person_detail_screen.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:provider/provider.dart';
 import '../gedcom_parser.dart';
@@ -35,14 +35,36 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
     final familyNode = Node.Id(familyId);
     _graph.addNode(familyNode);
 
-    final husbandIds = family['husbs'] as List<String>? ?? [];
-    final wifeIds = family['wifes'] as List<String>? ?? [];
+    final husbandIds = family['husbs'] as List<dynamic>? ?? [];
+    final wifeIds = family['wifes'] as List<dynamic>? ?? [];
+
+    bool husbandHasParents = false;
+    if (husbandIds.isNotEmpty) {
+      final husband = parser.individuals[husbandIds.first];
+      if (husband != null && husband['famc'] != null) {
+          final parentFamily = parser.families.firstWhere((f) => f['id'] == husband['famc'], orElse: () => {});
+          if(parentFamily.isNotEmpty) husbandHasParents = true;
+      }
+    }
+
+    bool wifeHasParents = false;
+    if (wifeIds.isNotEmpty) {
+        final wife = parser.individuals[wifeIds.first];
+        if (wife != null && wife['famc'] != null) {
+            final parentFamily = parser.families.firstWhere((f) => f['id'] == wife['famc'], orElse: () => {});
+            if(parentFamily.isNotEmpty) wifeHasParents = true;
+        }
+    }
 
     for (var husbandId in husbandIds) {
       final husbandNode = Node.Id(husbandId);
       _graph.addNode(husbandNode);
       _graph.addEdge(husbandNode, familyNode);
       _addParents(parser, husbandId, husbandNode);
+
+      if (husbandId == husbandIds.first && !husbandHasParents && wifeHasParents) {
+          _addDummyParents(parser, husbandId);
+      }
     }
 
     for (var wifeId in wifeIds) {
@@ -50,15 +72,37 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
       _graph.addNode(wifeNode);
       _graph.addEdge(wifeNode, familyNode);
       _addParents(parser, wifeId, wifeNode);
+
+      if (wifeId == wifeIds.first && !wifeHasParents && husbandHasParents) {
+          _addDummyParents(parser, wifeId);
+      }
     }
 
-    final childrenIds = family['chils'] as List<String>? ?? [];
+    final childrenIds = family['chils'] as List<dynamic>? ?? [];
     for (var childId in childrenIds) {
       final childNode = Node.Id(childId);
       _graph.addNode(childNode);
       _graph.addEdge(familyNode, childNode);
     }
   }
+
+   void _addDummyParents(GedcomParser parser, String personId) {
+    final personNode = Node.Id(personId);
+    final transparentPaint = Paint()..color = Colors.transparent;
+
+    final dummyParentFamilyNode = Node.Id('dummy_parent_family_$personId');
+    _graph.addNode(dummyParentFamilyNode);
+    _graph.addEdge(dummyParentFamilyNode, personNode, paint: transparentPaint);
+
+    final dummyFatherNode = Node.Id('dummy_father_$personId');
+    _graph.addNode(dummyFatherNode);
+    _graph.addEdge(dummyFatherNode, dummyParentFamilyNode, paint: transparentPaint);
+
+    final dummyMotherNode = Node.Id('dummy_mother_$personId');
+    _graph.addNode(dummyMotherNode);
+    _graph.addEdge(dummyMotherNode, dummyParentFamilyNode, paint: transparentPaint);
+}
+
 
   void _addParents(GedcomParser parser, String personId, Node personNode) {
     final individual = parser.individuals[personId];
@@ -75,8 +119,8 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
       _graph.addNode(parentFamilyNode);
       _graph.addEdge(parentFamilyNode, personNode);
 
-      final fatherIds = parentFamily['husbs'] as List<String>? ?? [];
-      final motherIds = parentFamily['wifes'] as List<String>? ?? [];
+      final fatherIds = parentFamily['husbs'] as List<dynamic>? ?? [];
+      final motherIds = parentFamily['wifes'] as List<dynamic>? ?? [];
 
       for (var fatherId in fatherIds) {
         final fatherNode = Node.Id(fatherId);
@@ -123,7 +167,7 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
             ..style = PaintingStyle.stroke,
           builder: (Node node) {
             final id = node.key!.value as String;
-            if (id.startsWith('F')) {
+            if (id.startsWith('F') || id.startsWith('dummy')) {
               return const SizedBox.shrink();
             }
             return _buildPersonNodeWidget(parser, id);
@@ -160,6 +204,22 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
         yearInfo += '-$deathYear)';
       } else {
         yearInfo += ')';
+      }
+    }
+    
+    final surname = person.surn;
+    String givenName = person.name;
+    if (surname != null && surname.isNotEmpty) {
+      givenName = givenName.replaceAll(surname, '').trim();
+    }
+    givenName = givenName.replaceAll('/', '').trim();
+
+    List<String> surnameLines = [];
+    if (surname != null && surname.isNotEmpty) {
+      if (surname.contains(' i ')) {
+        surnameLines = surname.split(' i ').map((s) => s.trim()).toList();
+      } else {
+        surnameLines.add(surname);
       }
     }
 
@@ -248,15 +308,21 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                 child: Icon(Icons.person, size: 40, color: Colors.grey[600]),
               ),
             Text(
-              person.name,
+              givenName,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
                   ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
               textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
             ),
+            ...surnameLines.map((line) => Text(
+                  line,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                  textAlign: TextAlign.center,
+                )),
             if (yearInfo.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:genealogic/gedcom_parser.dart';
-import 'package:genealogic/providers/gedcom_provider.dart';
-import 'package:genealogic/screens/person_detail_screen.dart';
+import 'package:genealogic_balear/gedcom_parser.dart';
+import 'package:genealogic_balear/providers/gedcom_provider.dart';
+import 'package:genealogic_balear/screens/person_detail_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
@@ -192,6 +192,7 @@ class _MapScreenState extends State<MapScreen> {
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             subdomains: const ['a', 'b', 'c'],
+            userAgentPackageName: 'genealogic_Balear',
           ),
           if (markers.isNotEmpty)
             MarkerLayer(
