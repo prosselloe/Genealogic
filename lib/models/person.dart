@@ -33,6 +33,24 @@ class Person {
     this.fams = const [],
   });
 
+  String get surname {
+    if (surn != null && surn!.isNotEmpty) {
+      return surn!;
+    }
+    final nameParts = name.split('/');
+    if (nameParts.length > 1) {
+      final potentialSurname = nameParts[1].trim();
+      if (potentialSurname.isNotEmpty) {
+        return potentialSurname;
+      }
+    }
+    final words = name.split(' ');
+    if (words.length > 1) {
+      return words.last;
+    }
+    return '';
+  }
+
  factory Person.fromMap(Map<String, dynamic> map) {
     final birthMap = map['birt'] as Map<String, dynamic>?;
     final deathMap = map['deat'] as Map<String, dynamic>?;

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:genealogic_balear/models/person.dart';
 import 'package:genealogic_balear/providers/gedcom_provider.dart';
 import 'package:genealogic_balear/screens/converter_screen.dart';
 import 'package:genealogic_balear/screens/family_detail_screen.dart';
 import 'package:genealogic_balear/screens/family_relations_screen.dart';
 import 'package:genealogic_balear/screens/info_screen.dart';
 import 'package:genealogic_balear/screens/map_screen.dart';
+import 'package:genealogic_balear/widgets/cropped_image_widget.dart';
 import 'package:genealogic_balear/widgets/heraldic_shield_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:genealogic_balear/gedcom_parser.dart';
@@ -105,17 +107,7 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
       appBar: AppBar(
         title: const Text('Arbres familiars'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.transform, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ConverterScreen()),
-              );
-            },
-          ),
-          IconButton(
+           IconButton(
             icon: const Icon(Icons.info_outline, color: Colors.white),
             onPressed: () {
               Navigator.push(
@@ -138,8 +130,24 @@ class _FamilyTreeScreenState extends State<FamilyTreeScreen> {
             },
           ),
           IconButton(
+            icon: const Icon(Icons.transform, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ConverterScreen()),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.folder_open, color: Colors.white),
+            tooltip: 'Obrir fitxer GEDCOM',
             onPressed: () => gedcomProvider.loadGedcomFromFile(),
+          ),
+          IconButton(
+            icon: const Icon(Icons.restore, color: Colors.white),
+            tooltip: 'Recarregar dades inicials',
+            onPressed: () => gedcomProvider.loadInitialData(),
           ),
           IconButton(
             icon: const Icon(Icons.map, color: Colors.white),
@@ -419,16 +427,34 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
                   itemCount: suggestions.length,
                   itemBuilder: (context, index) {
                     final individual = suggestions[index];
-                    final name = individual['givn'] as String? ?? '';
-                    final surname = individual['surn'] as String? ?? '';
+                    final person = Person.fromMap(individual);
 
-                    String? photoUrl;
-                    final photosRaw = individual['photos'];
-                    if (photosRaw is List && photosRaw.isNotEmpty) {
-                      final firstPhoto = photosRaw.first;
-                      if (firstPhoto is Map) {
-                        photoUrl = firstPhoto['file'] as String?;
-                      }
+                    final displayablePhotos = person.photos;
+
+                    Widget leadingWidget;
+
+                    if (displayablePhotos.isEmpty) {
+                      leadingWidget = CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(Icons.person, size: 24, color: Colors.grey[600]),
+                      );
+                    } else {
+                      final photoToShow = displayablePhotos.firstWhere(
+                        (p) => p.isPersonal,
+                        orElse: () => displayablePhotos.first,
+                      );
+
+                      leadingWidget = CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey[300],
+                        child: ClipOval(
+                          child: CroppedImageWidget(
+                            photo: photoToShow,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
                     }
 
                     final birthDate = _getEventDate(individual['birt']);
@@ -447,21 +473,8 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.grey[300],
-                          backgroundImage: (photoUrl != null &&
-                                  Uri.tryParse(photoUrl)?.isAbsolute == true)
-                              ? NetworkImage(photoUrl)
-                              : null,
-                          child: (photoUrl == null ||
-                                  Uri.tryParse(photoUrl)?.isAbsolute != true)
-                              ? Icon(Icons.person,
-                                  size: 24, color: Colors.grey[600])
-                              : null,
-                        ),
-                        title:
-                            Text('${individual['id']}: $name $surname'.trim()),
+                        leading: leadingWidget,
+                        title: Text('${person.id}: ${person.name}'.trim()),
                         subtitle:
                             Text(subtitle.isEmpty ? 'Sense dates' : subtitle),
                         onTap: () {
@@ -492,7 +505,7 @@ class _IndividualSearchDelegate extends SearchDelegate<String> {
                   },
                 ),
               ),
-            ),
+            )
           ],
         );
       },

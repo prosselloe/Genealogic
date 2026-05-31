@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:genealogic_balear/models/person.dart';
+import 'package:genealogic_balear/models/photo.dart';
 import 'package:genealogic_balear/providers/gedcom_provider.dart';
 import 'package:genealogic_balear/screens/person_detail_screen.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:provider/provider.dart';
+import 'package:genealogic_balear/widgets/cropped_image_widget.dart';
 import '../gedcom_parser.dart';
 
 class FamilyDetailScreen extends StatefulWidget {
@@ -42,18 +44,20 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
     if (husbandIds.isNotEmpty) {
       final husband = parser.individuals[husbandIds.first];
       if (husband != null && husband['famc'] != null) {
-          final parentFamily = parser.families.firstWhere((f) => f['id'] == husband['famc'], orElse: () => {});
-          if(parentFamily.isNotEmpty) husbandHasParents = true;
+        final parentFamily = parser.families
+            .firstWhere((f) => f['id'] == husband['famc'], orElse: () => {});
+        if (parentFamily.isNotEmpty) husbandHasParents = true;
       }
     }
 
     bool wifeHasParents = false;
     if (wifeIds.isNotEmpty) {
-        final wife = parser.individuals[wifeIds.first];
-        if (wife != null && wife['famc'] != null) {
-            final parentFamily = parser.families.firstWhere((f) => f['id'] == wife['famc'], orElse: () => {});
-            if(parentFamily.isNotEmpty) wifeHasParents = true;
-        }
+      final wife = parser.individuals[wifeIds.first];
+      if (wife != null && wife['famc'] != null) {
+        final parentFamily = parser.families
+            .firstWhere((f) => f['id'] == wife['famc'], orElse: () => {});
+        if (parentFamily.isNotEmpty) wifeHasParents = true;
+      }
     }
 
     for (var husbandId in husbandIds) {
@@ -63,7 +67,7 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
       _addParents(parser, husbandId, husbandNode);
 
       if (husbandId == husbandIds.first && !husbandHasParents && wifeHasParents) {
-          _addDummyParents(parser, husbandId);
+        _addDummyParents(parser, husbandId);
       }
     }
 
@@ -74,7 +78,7 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
       _addParents(parser, wifeId, wifeNode);
 
       if (wifeId == wifeIds.first && !wifeHasParents && husbandHasParents) {
-          _addDummyParents(parser, wifeId);
+        _addDummyParents(parser, wifeId);
       }
     }
 
@@ -86,7 +90,7 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
     }
   }
 
-   void _addDummyParents(GedcomParser parser, String personId) {
+  void _addDummyParents(GedcomParser parser, String personId) {
     final personNode = Node.Id(personId);
     final transparentPaint = Paint()..color = Colors.transparent;
 
@@ -96,13 +100,14 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
 
     final dummyFatherNode = Node.Id('dummy_father_$personId');
     _graph.addNode(dummyFatherNode);
-    _graph.addEdge(dummyFatherNode, dummyParentFamilyNode, paint: transparentPaint);
+    _graph.addEdge(dummyFatherNode, dummyParentFamilyNode,
+        paint: transparentPaint);
 
     final dummyMotherNode = Node.Id('dummy_mother_$personId');
     _graph.addNode(dummyMotherNode);
-    _graph.addEdge(dummyMotherNode, dummyParentFamilyNode, paint: transparentPaint);
-}
-
+    _graph.addEdge(dummyMotherNode, dummyParentFamilyNode,
+        paint: transparentPaint);
+  }
 
   void _addParents(GedcomParser parser, String personId, Node personNode) {
     final individual = parser.individuals[personId];
@@ -183,6 +188,47 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
     return yearMatch?.group(1) ?? '';
   }
 
+  Widget _buildPersonImageWidget(Photo? photo) {
+    if (photo == null) {
+      return Container(
+          color: Colors.grey[300],
+          child: Icon(Icons.person, size: 40, color: Colors.grey[600]));
+    }
+
+    if (photo.isPersonal) {
+      return CroppedImageWidget(photo: photo);
+    }
+
+    final isUrl = photo.url.startsWith('http');
+    final assetPath = 'assets/images/${photo.title}.${photo.format}';
+
+    if (isUrl) {
+      return Image.network(
+        photo.url,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return const Center(child: CircularProgressIndicator());
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            assetPath,
+            fit: BoxFit.cover,
+            errorBuilder: (c, e, s) =>
+                Image.asset('assets/images/logo.png', fit: BoxFit.cover),
+          );
+        },
+      );
+    } else {
+      return Image.asset(
+        assetPath,
+        fit: BoxFit.cover,
+        errorBuilder: (c, e, s) =>
+            Image.asset('assets/images/logo.png', fit: BoxFit.cover),
+      );
+    }
+  }
+
   Widget _buildPersonNodeWidget(GedcomParser parser, String id) {
     final individualData = parser.individuals[id];
     if (individualData == null) {
@@ -190,9 +236,25 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
     }
 
     final person = Person.fromMap(individualData);
-    final photo = person.photos.isNotEmpty ? person.photos.first : null;
-    final photoUrl = photo?.url;
-    final isAdopted = individualData.containsKey('pedi') && individualData['pedi'] == 'Adopted';
+    Photo? photo;
+
+    try {
+      photo = person.photos
+          .firstWhere((p) => p.isPersonal && p.resolvedUrl != null);
+    } catch (e) {
+      try {
+        final Set<String> parentRins = person.photos
+            .where((p) => p.isPersonal && p.parentRin != null)
+            .map((p) => p.parentRin!)
+            .toSet();
+        photo = person.photos.firstWhere((p) => !parentRins.contains(p.photoRin));
+      } catch (e) {
+        photo = null;
+      }
+    }
+
+    final isAdopted =
+        individualData.containsKey('pedi') && individualData['pedi'] == 'Adopted';
 
     final birthYear = _extractYear(person.birthDate);
     final deathYear = _extractYear(person.deathDate);
@@ -206,7 +268,7 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
         yearInfo += ')';
       }
     }
-    
+
     final surname = person.surn;
     String givenName = person.name;
     if (surname != null && surname.isNotEmpty) {
@@ -260,7 +322,8 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                     icon: const Icon(Icons.arrow_upward),
                     onPressed: () {
                       final parentFamily = parser.families.firstWhere(
-                          (f) => f['id'] == person.famc, orElse: () => <String, dynamic>{});
+                          (f) => f['id'] == person.famc,
+                          orElse: () => <String, dynamic>{});
                       if (parentFamily.isNotEmpty) {
                         _navigateToFamily(parentFamily);
                       }
@@ -273,7 +336,8 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                     icon: const Icon(Icons.arrow_downward),
                     onPressed: () {
                       final spouseFamily = parser.families.firstWhere(
-                          (f) => f['id'] == person.fams.first, orElse: () => <String, dynamic>{});
+                          (f) => f['id'] == person.fams.first,
+                          orElse: () => <String, dynamic>{});
                       if (spouseFamily.isNotEmpty) {
                         _navigateToFamily(spouseFamily);
                       }
@@ -283,44 +347,25 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                   const SizedBox(width: 48),
               ],
             ),
-            if (photoUrl != null && Uri.tryParse(photoUrl)?.isAbsolute == true)
-              Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(bottom: 8),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage(photoUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )
-            else
-              Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(bottom: 8),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[300],
-                ),
-                child: Icon(Icons.person, size: 40, color: Colors.grey[600]),
+            SizedBox(
+              width: 60,
+              height: 60,
+              child: ClipOval(
+                child: _buildPersonImageWidget(photo),
               ),
+            ),
             Text(
               givenName,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface),
               textAlign: TextAlign.center,
             ),
             ...surnameLines.map((line) => Text(
                   line,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.center,
                 )),
             if (yearInfo.isNotEmpty)
@@ -329,7 +374,10 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                 child: Text(
                   yearInfo,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(180),
                       ),
                 ),
               ),
@@ -340,7 +388,10 @@ class FamilyDetailScreenState extends State<FamilyDetailScreen> {
                   '(Adoptat/da)',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontStyle: FontStyle.italic,
-                        color: Theme.of(context).colorScheme.onSurface.withAlpha(150),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(150),
                       ),
                 ),
               ),

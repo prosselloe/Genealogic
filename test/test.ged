@@ -1,0 +1,547 @@
+0 HEAD
+1 SOUR GenealogicBalear
+1 CHAR UTF-8
+0 @I10@ INDI
+1 NAME Coloma /Binimelis/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F5@
+0 @I11@ INDI
+1 NAME Guillem /Abraham Puig/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 NOTE Viu el 1697
+1 FAMC @F4@
+0 @I12@ INDI
+1 NAME Joan /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 08 JUL 1666
+2 PLAC Felanitx
+1 NOTE Viu el 1697
+1 FAMC @F4@
+0 @I13@ INDI
+1 NAME Caterina /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 20 JUL 1661
+2 PLAC Felanitx
+1 FAMC @F4@
+0 @I14@ INDI
+1 NAME Coloma /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 05 FEB 1664
+2 PLAC Felanitx
+1 NOTE Viu el 1697 (h)
+1 FAMC @F4@
+0 @I15@ INDI
+1 NAME Margarita /Abraham Puig/
+1 SEX F
+1 BIRT
+2 DATE 25 MAR 1669
+2 PLAC Felanitx
+1 DEAT
+2 DATE 21 SEP 1697
+2 PLAC Felanitx
+1 NOTE +  (28), fadrina
+1 FAMC @F4@
+0 @I16@ INDI
+1 NAME Francesc /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 18 APR 1672
+2 PLAC Felanitx
+1 FAMC @F4@
+0 @I17@ INDI
+1 NAME Sebastià /Abraham Puig/
+1 SEX M
+1 BIRT
+2 DATE 02 FEB 1675
+2 PLAC Felanitx
+1 NOTE Viu el 1697
+1 FAMC @F4@
+0 @I18@ INDI
+1 NAME Jaume /Abraham Obrador/
+1 SEX M
+1 BIRT
+2 DATE BEF 1649
+2 PLAC Felanitx
+1 DEAT
+2 DATE 27 MAY 1716
+1 NOTE O-279
+1 NOTE Fa usufructuària la dona i hereves les ànimes de la família i les del Purgatori.
+1 FAMC @F6@
+1 FAMS @F7@
+0 @I19@ INDI
+1 NAME Sebastià /Abraham/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F1@
+1 FAMS @F6@
+0 @I1@ INDI
+1 NAME ABRAHAM //
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+0 @I20@ INDI
+1 NAME Joana /Obrador/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F6@
+0 @I21@ INDI
+1 NAME Paula /Soler Barceló/
+1 SEX F
+1 BIRT
+2 DATE BEF 1655
+2 PLAC Felanitx
+1 DEAT
+2 DATE BEF 28 MAR 1690
+2 PLAC Felanitx
+1 NOTE T. 28-3-1690 (O-279)
+1 FAMC @F8@
+1 FAMS @F7@
+0 @I22@ INDI
+1 NAME Jordi /Soler/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F8@
+0 @I23@ INDI
+1 NAME Caterina /Barceló/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F8@
+0 @I24@ INDI
+1 NAME Sebastià /Abraham Obrador/
+1 SEX M
+1 BIRT
+2 DATE BEF 1652
+2 PLAC Felanitx
+1 FAMC @F9@
+1 FAMS @F10@
+0 @I25@ INDI
+1 NAME Sebastià /Abraham/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F1@
+1 FAMS @F9@
+0 @I26@ INDI
+1 NAME Joana /Obrador/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F9@
+0 @I27@ INDI
+1 NAME Joana /Maymó/
+1 SEX F
+1 BIRT
+2 DATE BEF 1654
+2 PLAC Felanitx
+1 FAMC @F11@
+1 FAMS @F10@
+0 @I28@ INDI
+1 NAME Miquel Joan i Sebastiana Nicolau /Maymó/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+0 @I29@ INDI
+1 NAME Joana /Abraham Maymó/
+1 SEX F
+1 BIRT
+2 DATE 20 FEB 1679
+2 PLAC Felanitx
+1 FAMC @F10@
+0 @I2@ INDI
+1 NAME Cosme /Abraham/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F1@
+1 FAMS @F2@
+0 @I30@ INDI
+1 NAME Sebastià /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 16 JAN 1682
+2 PLAC Felanitx
+1 FAMC @F10@
+0 @I31@ INDI
+1 NAME Miquel Joan /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 DATE 18 NOV 1684
+2 PLAC Felanitx
+1 FAMC @F10@
+0 @I32@ INDI
+1 NAME Sebastià /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 07 OCT 1687
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F10@
+0 @I33@ INDI
+1 NAME Francesc Isidoro /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 20 JUN 1690
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F10@
+0 @I34@ INDI
+1 NAME Sebastiana Maria /Abraham Maymó/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 01 JUN 1693
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F10@
+0 @I35@ INDI
+1 NAME Jaume Isidro /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 21 JUN 1696
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F10@
+0 @I36@ INDI
+1 NAME Cristòfol /Abraham Maymó/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 07 MAY 1699
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F10@
+0 @I37@ INDI
+1 NAME ABRINES //
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+0 @I38@ INDI
+1 NAME Joan /Abrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F12@
+1 FAMS @F13@
+0 @I39@ INDI
+1 NAME Joana /Mesquida/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F13@
+0 @I3@ INDI
+1 NAME Antonina /Corró/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F2@
+0 @I40@ INDI
+1 NAME Joan Ramon /Abrines Mesquida/
+1 SEX M
+1 BIRT
+2 DATE 07 APR 1667
+2 PLAC Felanitx
+1 FAMC @F13@
+0 @I41@ INDI
+1 NAME Caterina /Abrines Mesquida/
+1 SEX F
+1 BIRT
+2 DATE 18 FEB 1680
+2 PLAC Felanitx
+1 FAMC @F13@
+0 @I42@ INDI
+1 NAME Joan /Abrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F12@
+1 FAMS @F14@
+0 @I43@ INDI
+1 NAME Margarita /Mesquida/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F14@
+0 @I44@ INDI
+1 NAME Anna /Abrines Mesquida/
+1 SEX F
+1 BIRT
+2 DATE 22 MAR 1662
+2 PLAC Felanitx
+1 FAMC @F14@
+0 @I45@ INDI
+1 NAME ADROVER //
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+0 @I46@ INDI
+1 NAME Aleix /Adrover picapedrer/
+1 SEX M
+1 BIRT
+2 DATE BEF 1666
+2 PLAC Felanitx
+1 FAMC @F16@
+1 FAMS @F17@
+0 @I47@ INDI
+1 NAME Bartomeu /Adrover/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F15@
+1 FAMS @F16@
+0 @I48@ INDI
+1 NAME Joana Rigo, /picapedrer/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F16@
+0 @I49@ INDI
+1 NAME Francina /Juan Padrines Sagrera/
+1 SEX F
+1 BIRT
+2 DATE BEF 1673
+2 PLAC Felanitx
+1 DEAT
+2 DATE BEF 10 APR 1697
+2 PLAC Felanitx
+1 NOTE T. 10-4-1697 (B-934). Codicil 21-11-1706. El 1776 el nét Bartomeu paga el testament
+1 FAMC @F18@
+1 FAMS @F17@
+0 @I4@ INDI
+1 NAME Magdalena Macia /Abraham Corró/
+1 SEX F
+1 BIRT
+2 DATE 04 AUG 1683
+2 PLAC Felanitx
+1 FAMC @F2@
+0 @I50@ INDI
+1 NAME Antoni /Juan Padrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 NOTE fuster
+1 FAMS @F18@
+0 @I51@ INDI
+1 NAME Jaumeta /Sagrera/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F18@
+0 @I52@ INDI
+1 NAME Bartomeu /Adrover Juan Padrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 21 APR 1697
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F17@
+0 @I53@ INDI
+1 NAME Bartomeu /Adrover Juan Padrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 16 JAN 1699
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F17@
+0 @I54@ INDI
+1 NAME Joana Maria /Adrover Juan Padrines/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 23 JAN 1703
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F17@
+0 @I55@ INDI
+1 NAME Antoni Ramon /Adrover Juan Padrines/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 17 DEC 1704
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F17@
+0 @I56@ INDI
+1 NAME Jaumeta Maria /Adrover Juan Padrines/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 DEAT
+2 DATE 17 DEC 1704
+2 PLAC Felanitx
+1 NOTE ()
+1 FAMC @F17@
+0 @I5@ INDI
+1 NAME Francesc /Abraham Adrover/
+1 SEX M
+1 BIRT
+2 DATE BEF 1627
+2 PLAC Felanitx
+1 FAMC @F3@
+1 FAMS @F4@
+0 @I6@ INDI
+1 NAME Guillem /Abraham/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMC @F1@
+1 FAMS @F3@
+0 @I7@ INDI
+1 NAME Caterina /Adrover/
+1 SEX F
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F3@
+0 @I8@ INDI
+1 NAME Margarita /Puig Binimelis/
+1 SEX F
+1 BIRT
+2 DATE BEF 1636
+2 PLAC Felanitx
+1 DEAT
+2 DATE BEF 13 OCT 1697
+2 PLAC Felanitx
+1 NOTE T. 13-10-1697, vda (O-280)
+1 FAMC @F5@
+1 FAMS @F4@
+0 @I9@ INDI
+1 NAME Joan /Puig/
+1 SEX M
+1 BIRT
+2 PLAC Felanitx
+1 FAMS @F5@
+0 @F10@ FAM
+1 HUSB @I24@
+1 WIFE @I27@
+1 MARR
+2 DATE 17 NOV 1675
+2 PLAC Felanitx
+1 CHIL @I29@
+1 CHIL @I30@
+1 CHIL @I31@
+1 CHIL @I32@
+1 CHIL @I33@
+1 CHIL @I34@
+1 CHIL @I35@
+1 CHIL @I36@
+0 @F11@ FAM
+1 HUSB @I28@
+1 CHIL @I27@
+0 @F12@ FAM
+1 HUSB @I37@
+1 CHIL @I38@
+1 CHIL @I42@
+0 @F13@ FAM
+1 HUSB @I38@
+1 WIFE @I39@
+1 MARR
+2 DATE N
+2 PLAC Felanitx
+1 CHIL @I40@
+1 CHIL @I41@
+0 @F14@ FAM
+1 HUSB @I42@
+1 WIFE @I43@
+1 MARR
+2 DATE N
+2 PLAC Felanitx
+1 CHIL @I44@
+0 @F15@ FAM
+1 HUSB @I45@
+1 CHIL @I47@
+0 @F16@ FAM
+1 HUSB @I47@
+1 WIFE @I48@
+1 CHIL @I46@
+0 @F17@ FAM
+1 HUSB @I46@
+1 WIFE @I49@
+1 MARR
+2 DATE 15 APR 1696
+2 PLAC Felanitx
+1 CHIL @I52@
+1 CHIL @I53@
+1 CHIL @I54@
+1 CHIL @I55@
+1 CHIL @I56@
+0 @F18@ FAM
+1 HUSB @I50@
+1 WIFE @I51@
+1 CHIL @I49@
+0 @F1@ FAM
+1 HUSB @I1@
+1 CHIL @I19@
+1 CHIL @I25@
+1 CHIL @I2@
+1 CHIL @I6@
+0 @F2@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 MARR
+2 DATE 12 JUN 1667
+2 PLAC a Sta. Creu
+1 CHIL @I4@
+0 @F3@ FAM
+1 HUSB @I6@
+1 WIFE @I7@
+1 CHIL @I5@
+0 @F4@ FAM
+1 HUSB @I5@
+1 WIFE @I8@
+1 MARR
+2 DATE 17 DEC 1656
+2 PLAC Felanitx
+1 CHIL @I11@
+1 CHIL @I12@
+1 CHIL @I13@
+1 CHIL @I14@
+1 CHIL @I15@
+1 CHIL @I16@
+1 CHIL @I17@
+0 @F5@ FAM
+1 HUSB @I9@
+1 WIFE @I10@
+1 CHIL @I8@
+0 @F6@ FAM
+1 HUSB @I19@
+1 WIFE @I20@
+1 CHIL @I18@
+0 @F7@ FAM
+1 HUSB @I18@
+1 WIFE @I21@
+1 MARR
+2 DATE 16 MAY 1682
+2 PLAC Felanitx
+0 @F8@ FAM
+1 HUSB @I22@
+1 WIFE @I23@
+1 CHIL @I21@
+0 @F9@ FAM
+1 HUSB @I25@
+1 WIFE @I26@
+1 CHIL @I24@
+0 TRLR

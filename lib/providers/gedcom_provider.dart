@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
@@ -65,12 +66,11 @@ class GedcomProvider with ChangeNotifier {
         }
 
         final data = _decodeGedcom(fileBytes);
-        
+
         _parser = GedcomParser();
         await _parser!.parse(data);
         _updateSurnames();
         _status = GedcomStatus.loaded;
-
       } else {
         _status = (_parser != null) ? GedcomStatus.loaded : GedcomStatus.initial;
       }
@@ -81,37 +81,20 @@ class GedcomProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Helper function to find line and column from a byte offset
-  (int, int) _findLineAndColumn(Uint8List bytes, int offset) {
-    int line = 1;
-    int column = 1;
-    for (int i = 0; i < offset; i++) {
-      if (bytes[i] == 0x0A) { // ASCII value for newline '\n'
-        line++;
-        column = 1;
-      } else {
-        column++;
-      }
-    }
-    return (line, column);
-  }
-
   String _decodeGedcom(Uint8List bytes) {
     try {
-      // First, check for the CHAR tag to confirm encoding
-      final firstFewLines = utf8.decode(bytes.take(200).toList(), allowMalformed: true);
+      final firstFewLines =
+          utf8.decode(bytes.take(200).toList(), allowMalformed: true);
       final charLine = firstFewLines.split('\n').firstWhere(
-        (line) => line.trim().startsWith('1 CHAR'),
-        orElse: () => '',
-      );
+            (line) => line.trim().startsWith('1 CHAR'),
+            orElse: () => '',
+          );
 
       if (charLine.isNotEmpty && !charLine.contains('UTF-8')) {
         throw FormatException(
-          'GEDCOM file is not declared as UTF-8. Found: "$charLine". Please save the file with UTF-8 encoding.'
-        );
+            'GEDCOM file is not declared as UTF-8. Found: "$charLine". Please save the file with UTF-8 encoding.');
       }
 
-      // Enforce strict UTF-8 decoding
       return utf8.decode(bytes, allowMalformed: false);
     } on FormatException catch (e) {
       final (line, column) = _findLineAndColumn(bytes, e.offset ?? 0);
@@ -121,9 +104,22 @@ class GedcomProvider with ChangeNotifier {
         e.offset,
       );
     } catch (e) {
-      // Rethrow other potential errors
       rethrow;
     }
+  }
+
+  (int, int) _findLineAndColumn(Uint8List bytes, int offset) {
+    int line = 1;
+    int column = 1;
+    for (int i = 0; i < offset; i++) {
+      if (bytes[i] == 0x0A) {
+        line++;
+        column = 1;
+      } else {
+        column++;
+      }
+    }
+    return (line, column);
   }
 
   void _updateSurnames() {

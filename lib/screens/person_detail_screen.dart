@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:genealogic_balear/models/person.dart';
+import 'package:genealogic_balear/models/photo.dart';
 import 'package:genealogic_balear/providers/gedcom_provider.dart';
 import 'package:genealogic_balear/screens/family_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'fullscreen_image_viewer.dart';
+import 'package:genealogic_balear/widgets/cropped_image_widget.dart';
 
 class PersonDetailScreen extends StatelessWidget {
   final Map<String, dynamic> person;
@@ -17,9 +19,11 @@ class PersonDetailScreen extends StatelessWidget {
     final gedcomProvider = Provider.of<GedcomProvider>(context, listen: false);
 
     final familiesAsSpouse = gedcomProvider.parser!.families.where((family) {
-      return (family['husbs'] as List<dynamic>? ?? []).contains(personData.id) || 
-             (family['wifes'] as List<dynamic>? ?? []).contains(personData.id);
+      return (family['husbs'] as List<dynamic>? ?? []).contains(personData.id) ||
+          (family['wifes'] as List<dynamic>? ?? []).contains(personData.id);
     }).toList();
+
+    final displayablePhotos = personData.photos;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,17 +33,21 @@ class PersonDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildVitalsSection(context, personData, familiesAsSpouse),
-          if (familiesAsSpouse.isNotEmpty) _buildDescendantsSection(context, familiesAsSpouse),
-          if (personData.photos.isNotEmpty) _buildPhotosSection(context, personData),
-          if (personData.notes.isNotEmpty) _buildNotesSection(context, personData),
+          if (familiesAsSpouse.isNotEmpty)
+            _buildDescendantsSection(context, familiesAsSpouse),
+          if (displayablePhotos.isNotEmpty)
+            _buildPhotosSection(context, displayablePhotos),
+          if (personData.notes.isNotEmpty)
+            _buildNotesSection(context, personData),
           if (personData.photos.any((p) => p.note != null && p.note!.isNotEmpty))
-             _buildPhotoNotesSection(context, personData), 
+            _buildPhotoNotesSection(context, personData),
         ],
       ),
     );
   }
 
-  Widget _buildVitalsSection(BuildContext context, Person personData, List<Map<String, dynamic>> familiesAsSpouse) {
+  Widget _buildVitalsSection(
+      BuildContext context, Person personData, List<Map<String, dynamic>> familiesAsSpouse) {
     final gedcomProvider = Provider.of<GedcomProvider>(context, listen: false);
     return Card(
       elevation: 4,
@@ -51,12 +59,14 @@ class PersonDetailScreen extends StatelessWidget {
           children: [
             Text('Informació vital', style: Theme.of(context).textTheme.titleLarge),
             const Divider(height: 20, thickness: 1),
-            if (personData.sex != null) ListTile(leading: const Icon(Icons.person_outline), title: Text('Sexe: ${personData.sex}')),
+            if (personData.sex != null)
+              ListTile(leading: const Icon(Icons.person_outline), title: Text('Sexe: ${personData.sex}')),
             if (personData.birthDate != null || personData.birthPlace != null)
               ListTile(
                 leading: const Icon(Icons.cake_outlined),
                 title: const Text('Naixement'),
-                subtitle: Text('${personData.birthDate ?? 'Data desconeguda'}\n${personData.birthPlace ?? 'Lloc desconegut'}'),
+                subtitle: Text(
+                    '${personData.birthDate ?? 'Data desconeguda'}\n${personData.birthPlace ?? 'Lloc desconegut'}'),
               ),
             for (var family in familiesAsSpouse)
               _buildMarriageInfo(context, personData, family),
@@ -64,7 +74,8 @@ class PersonDetailScreen extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.bedtime_outlined),
                 title: const Text('Defunció'),
-                subtitle: Text('${personData.deathDate ?? 'Data desconeguda'}\n${personData.deathPlace ?? 'Lloc desconegut'}${personData.age != null ? ' (Edat: ${personData.age})' : ''}'),
+                subtitle: Text(
+                    '${personData.deathDate ?? 'Data desconeguda'}\n${personData.deathPlace ?? 'Lloc desconegut'}${personData.age != null ? ' (Edat: ${personData.age})' : ''}'),
               ),
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
@@ -74,8 +85,7 @@ class PersonDetailScreen extends StatelessWidget {
                     final family = familiesAsSpouse.isNotEmpty
                         ? familiesAsSpouse.first
                         : (personData.famc != null
-                            ? gedcomProvider.parser!.families
-                                .firstWhere((f) => f['id'] == personData.famc, orElse: () => {})
+                            ? gedcomProvider.parser!.families.firstWhere((f) => f['id'] == personData.famc, orElse: () => {})
                             : null);
                     if (family != null && family.isNotEmpty) {
                       Navigator.push(
@@ -112,56 +122,56 @@ class PersonDetailScreen extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.favorite_border),
       title: Text('Matrimoni amb ${spouse.name}'),
-      subtitle: Text('${family['marr']?['date'] ?? 'Data desconeguda'}\n${family['marr']?['plac'] ?? 'Lloc desconegut'}'),
+      subtitle: Text(
+          '${family['marr']?['date'] ?? 'Data desconeguda'}\n${family['marr']?['plac'] ?? 'Lloc desconegut'}'),
     );
   }
 
   Widget _buildDescendantsSection(BuildContext context, List<Map<String, dynamic>> families) {
-  final gedcomProvider = Provider.of<GedcomProvider>(context, listen: false);
-  final allChildren = families
-      .expand((family) => (family['chils'] as List<dynamic>? ?? []))
-      .map((childId) => Person.fromMap(gedcomProvider.parser!.individuals[childId]!))
-      .toList();
+    final gedcomProvider = Provider.of<GedcomProvider>(context, listen: false);
+    final allChildren = families
+        .expand((family) => (family['chils'] as List<dynamic>? ?? []))
+        .map((childId) => Person.fromMap(gedcomProvider.parser!.individuals[childId]!))
+        .toList();
 
-  if (allChildren.isEmpty) {
-    return const SizedBox.shrink();
+    if (allChildren.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Descendència', style: Theme.of(context).textTheme.titleLarge),
+            const Divider(height: 20, thickness: 1),
+            ...allChildren.map((child) {
+              return ListTile(
+                title: Text(child.name),
+                subtitle: Text(
+                    'Naixement: ${child.birthDate ?? 'Data desconeguda'}\nLloc: ${child.birthPlace ?? 'Lloc desconegut'}'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PersonDetailScreen(
+                        person: gedcomProvider.parser!.individuals[child.id]!,
+                      ),
+                    ),
+                  );
+                },
+              );
+            }),
+          ],
+        ),
+      ),
+    );
   }
 
-  return Card(
-    elevation: 4,
-    margin: const EdgeInsets.only(bottom: 16),
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Descendència', style: Theme.of(context).textTheme.titleLarge),
-          const Divider(height: 20, thickness: 1),
-          ...allChildren.map((child) {
-            return ListTile(
-              title: Text(child.name),
-              subtitle: Text(
-                  'Naixement: ${child.birthDate ?? 'Data desconeguda'}\nLloc: ${child.birthPlace ?? 'Lloc desconegut'}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PersonDetailScreen(
-                      person: gedcomProvider.parser!.individuals[child.id]!,
-                    ),
-                  ),
-                );
-              },
-            );
-          }),
-        ],
-      ),
-    ),
-  );
-}
-
-
-  Widget _buildPhotosSection(BuildContext context, Person personData) {
+  Widget _buildPhotosSection(BuildContext context, List<Photo> photos) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.only(bottom: 16),
@@ -173,58 +183,47 @@ class PersonDetailScreen extends StatelessWidget {
             Text('Fotografies', style: Theme.of(context).textTheme.titleLarge),
             const Divider(height: 20, thickness: 1),
             SizedBox(
-              height: 150, // Increased height to accommodate title
+              height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: personData.photos.length,
+                itemCount: photos.length,
                 itemBuilder: (context, index) {
-                  final photo = personData.photos[index];
-                  return FutureBuilder<String>(
-                    future: photo.effectiveUrl,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasError || !snapshot.hasData) {
-                        return const Icon(Icons.error);
-                      }
-                      final imageUrl = snapshot.data!;
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FullScreenImageViewer(photo: photo),
-                          ),
+                  Photo photo = photos[index];
+                  Widget imageWidget = CroppedImageWidget(photo: photo);
+
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenImageViewer(
+                          photo: photo,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: SizedBox(
-                            width: 120,
-                            child: Column(
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: imageUrl.startsWith('assets/')
-                                      ? Image.asset(imageUrl, fit: BoxFit.cover)
-                                      : Image.network(imageUrl,
-                                          fit: BoxFit.cover, errorBuilder: (c, o, s) => const Icon(Icons.error)),
-                                ),
-                                if (photo.title != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      photo.title!,
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                              ],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: SizedBox(
+                        width: 120,
+                        child: Column(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: imageWidget,
                             ),
-                          ),
+                            if (photo.title != null)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  photo.title!,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                          ],
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   );
                 },
               ),
@@ -272,9 +271,9 @@ class PersonDetailScreen extends StatelessWidget {
             child: Text(
               'Web content link',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                decoration: TextDecoration.underline,
-              ),
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
             ),
           ),
         );
@@ -290,7 +289,7 @@ class PersonDetailScreen extends StatelessWidget {
 
   Widget _buildPhotoNotesSection(BuildContext context, Person personData) {
     final photosWithNotes = personData.photos.where((p) => p.note != null && p.note!.isNotEmpty);
-    
+
     if (photosWithNotes.isEmpty) {
       return const SizedBox.shrink();
     }
