@@ -277,9 +277,9 @@ flutter:
 * **Image.asset**: Displays an image from the application's asset bundle.
 
 ```
-// Assuming 'assets/images/placeholder.png' is declared in pubspec.yaml
+// Assuming 'assets/images/logo.png' is declared in pubspec.yaml
 Image.asset(
-  'assets/images/placeholder.png',
+  'assets/images/logo.png',
   width: 100,
   height: 100,
   fit: BoxFit.cover,

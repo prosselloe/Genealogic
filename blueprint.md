@@ -1,75 +1,45 @@
-# Project Blueprint: Genealogical Tree Viewer
+# Visió General
 
-## Overview
+Aquesta aplicació de genealogia, desenvolupada amb Flutter i desplegada a través de Firebase, permet als usuaris carregar, visualitzar i gestionar els seus arbres genealògics. El seu nucli funcional es basa en la interpretació de fitxers estàndard GEDCOM (com els de MyHeritage), un sistema sofisticat per a la gestió d'imatges (incloent-hi el retall dinàmic), i una eina auxiliar per convertir formats de text personalitzats a GEDCOM.
 
-This document outlines the development plan for a Flutter application designed to visualize and maintain genealogical trees. The primary feature is the ability to import, display, and eventually edit data from a GEDCOM (.ged) file.
+# Arquitectura i Disseny
 
-The application will feature a clean, intuitive, and visually appealing user interface, making it easy for users to navigate and understand their family history. It will be built using modern design principles and will be responsive to work on both mobile and web platforms.
+L'aplicació utilitza una arquitectura de components a Flutter, amb un disseny basat en Material Design, tipografies de Google Fonts i un enfocament en la responsivitat per adaptar-se a múltiples plataformes.
 
-## Project Status: Completed
+# Mòduls i Característiques Clau
 
-All planned features for the initial version of the application have been successfully implemented. The application is now functional and allows users to import a GEDCOM file, visualize the family tree, search for individuals, and view their details.
+## 1. Interpretació de Dades GEDCOM (`gedcom_parser.dart`)
 
-### 1. Initial Application Setup
-- **Status:** Done
-- **Details:** The basic structure of the Flutter application has been created. It includes a main screen with a title, an introductory text, and a `FloatingActionButton` to trigger the file import process.
+Aquest és el mòdul fonamental de l'aplicació. La seva responsabilitat és llegir, interpretar i modelar les dades contingudes en un fitxer d'arbre genealògic en format estàndard GEDCOM 5.5.1. Tota la informació que es mostra a les pantalles (individus, famílies, esdeveniments, fotos) prové de les estructures de dades que aquest intèrpret genera.
 
-### 2. Dependency Integration
-- **Status:** Done
-- **Details:** The `file_picker` package has been added to handle file selection, and the `gedcom` package has been integrated for parsing GEDCOM data. Both are included in the `pubspec.yaml` file.
+*   **Procés de Lectura:** El parser llegeix el fitxer GEDCOM línia per línia, identificant nivells, etiquetes (tags) i valors.
+*   **Modelat de Dades:** Transforma les dades del fitxer en una col·lecció d'objectes Dart fortament tipats, principalment:
+    *   `Individual`: Representa una persona, amb els seus atributs (nom, sexe), esdeveniments (naixement, defunció) i enllaços a famílies.
+    *   `Family`: Representa un nucli familiar, vinculant marit, muller i fills.
+    *   `Photo`: Representa una imatge, amb la seva URL, títol i altres metadades.
+    *   Altres objectes per a notes, fonts, etc.
+*   **Vinculació de Dades:** Un cop llegides totes les entitats, el parser resol les referències creuades (p. ex., vincula un fill a la seva família, una família als seus cònjuges) per construir l'arbre relacional complet.
 
-### 3. Implement File Import Logic
-- **Status:** Done
-- **Details:** The `FloatingActionButton` now opens a file picker that filters for `.ged` files. The selected file's content is read as a string.
+## 2. Gestió Avançada d'Imatges
 
-### 4. Basic Data Verification
-- **Status:** Done
-- **Details:** The raw content of the imported `.ged` file is displayed on the main screen. The `gedcom` package parses this data, and the application logs the list of individuals and families to the debug console, confirming that the data is being processed correctly.
+El sistema de gestió d'imatges és una altra característica complexa, el desenvolupament de la qual està àmpliament documentat a `assets/data/myheritage.txt`.
 
-### 5. Data Modeling
-- **Status:** Done
-- **Details:** Created `Person` and `Family` classes to represent the core entities of a family tree. These models provide a structured way to handle the data parsed from the GEDCOM file.
+*   **Càrrega Dual:** Per a cada imatge, el sistema primer intenta carregar-la des de la URL proporcionada al fitxer GEDCOM. Si falla, recorre a una còpia de seguretat local a `assets/images`, el nom de la qual es construeix a partir del títol (`TITL`) i format (`FORM`) del GEDCOM.
+*   **Imatges Personals Retallades:** Aquesta funcionalitat, específica per a dades de MyHeritage, permet generar fotos de perfil dinàmicament.
+    *   **Identificació i Vinculació:** Una foto personal (`_PERSONALPHOTO Y`) es vincula a una foto principal mitjançant les etiquetes `_PARENTRIN` i `_PHOTO_RIN`.
+    *   **Retall:** Les coordenades de retall s'extreuen de l'etiqueta `_POSITION` de la foto principal i s'apliquen per generar la imatge de perfil.
 
-### 6. Basic Tree Visualization
-- **Status:** Done
-- **Details:** 
-    - Integrated the `graphview` package to handle the visualization of the tree structure.
-    - Created a new screen, `FamilyTreeScreen`, dedicated to displaying the genealogical tree.
-    - The view is interactive, allowing for panning and zooming.
+## 3. Eina Auxiliar: Transformador de Text a GEDCOM (`gedcom_transformer.dart`)
 
-### 7. Advanced Tree Logic
-- **Status:** Done
-- **Details:**
-    - Modified the `_buildGraph` method in `FamilyTreeScreen` to use the `_families` data.
-    - Implemented logic to connect parents to their children using "family nodes", forming a proper genealogical structure.
-    - Handled cases with single-parent families.
+Aquest mòdul actua com una eina de conversió per a un format de text no estàndard, basat en notes de reconstrucció de famílies. La seva lògica es deriva de les especificacions documentades a `assets/data/felanitx.txt`.
 
-### 8. User Interface Enhancements
-- **Status:** Done
-- **Details:**
-    - Implemented pan and zoom functionality for navigating large trees.
-    - Added a search bar to find and highlight individuals within the tree.
-    - Implemented automatic centering of the view on a searched person.
-    - Added a feature to show more details about a person when they are tapped.
+*   **Objectiu:** Convertir aquest format de text específic al format GEDCOM estàndard, perquè pugui ser processat posteriorment pel `gedcom_parser.dart` principal.
+*   **Funcionalitat:** Interpreta la sintaxi de llinatges, patriarques, matrimonis (`*`), fills (`-`) i abreviatures (`T.`, `+`, `vdo.`) per generar un fitxer `.ged` vàlid.
 
-### 9. GEDCOM Parser Improvements
-- **Status:** Done
-- **Details:**
-    - The `GedcomParser` has been significantly improved to handle a wider range of GEDCOM formats.
-    - It now correctly parses names, whether they are in a single `NAME` tag or split into `GIVN` and `SURN` tags.
-    - The parser now recognizes and extracts birth (`BIRT`) and death (`DEAT`) information, including dates and places.
-    - The parser now correctly handles media objects (`OBJE`) and extracts image URLs.
+# Historial de Desenvolupament i Reptes Superats
 
-### 10. UI/UX Enhancements
-- **Status:** Done
-- **Details:**
-    - The `FamilyTreeScreen` now displays profile pictures for each individual in the tree, loaded from the URLs in the GEDCOM file.
-    - The detail dialog for each person now displays their birth and death information.
+El desenvolupament ha estat un procés iteratiu guiat per la filosofia de treballar com un "enginyer", basant-se en l'anàlisi de dades concretes.
 
-## Possible Future Enhancements
-
-- **Edit Mode:** Allow users to edit the information of a person or family directly from the application.
-- **Add/Remove Individuals:** Implement functionality to add new individuals or remove existing ones from the tree.
-- **Export to GEDCOM:** Allow users to export the modified tree back to a GEDCOM file.
-- **Different Tree Layouts:** Offer different algorithms for laying out the tree (e.g., radial, layered).
-- **Themes:** Allow users to customize the colors and appearance of the tree.
+*   **Depuració del Retall d'Imatges:** Aconseguir el funcionament correcte del retall dinàmic d'imatges va ser el repte més llarg i complex, documentat a `myheritage.txt`.
+*   **Desenvolupament del Transformador:** La creació del `gedcom_transformer.dart` va requerir desenes d'iteracions per gestionar les particularitats del format de text personalitzat, com es recull a `felanitx.txt`.
+*   **Optimització i Consistència:** Es van dedicar esforços significatius a optimitzar el rendiment de la càrrega d'imatges i a garantir una lògica de presentació coherent a tota l'aplicació.
