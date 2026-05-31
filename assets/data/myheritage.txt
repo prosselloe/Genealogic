@@ -1,0 +1,212 @@
+Ara ja funcionen a les dues pantalles, però ens queden les fotos personals com per exemple la següent: 
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWNjMTJiMzQ1NTVkM2RjOWYyZmRhN2RjYmZmY2EzNmM2YTM2ODBkOWYwMmE3MzM1OGM2ZjRmODE3MzVlYmQwNjcmZT0xNzc5NjUyODAw/174/226/9804/500010_1744064892fg1dr96vyen6_A.jpg
+2 _FILESIZE 16031
+2 _PRIM Y
+2 _CUTOUT Y
+2 _PARENTRIN MH:P500009
+2 _PERSONALPHOTO Y
+2 _PHOTO_RIN MH:P500010
+a les quals com pots veure no tenen TITL, però si 2 _PARENTRIN MH:P500009 en les que estan basades, i que en aquest exemple és la que ve a continuació 2 _PHOTO_RIN MH:P500009:
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWZiNzEyYTk5YTg0ZTk4ZDcwMTI1MGQyMjlhNzc5NDU5ODE3YTAwMDBmODZkNWM4MTdlODQyYzcxMWYwNjYyZjcmZT0xNzc5NjUyODAw/174/226/9804/500009_49789622914fd6rt890s2e_A.jpg
+2 _FILESIZE 39299
+2 TITL Jaume_II_de_Mallorca
+2 _PRIM_CUTOUT Y
+2 _PARENTPHOTO Y
+2 _POSITION 89 13 333 257
+2 _PHOTO_RIN MH:P500009
+on com pots veure tenim les coordenades de retall de l'original a la línia: 2 _POSITION 89 13 333 257
+Creus que podries crear les fotografies personals de forma dinàmica amb aquestes dades?
+
+No has entès res!, revisa novament el següent detall:
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWNjMTJiMzQ1NTVkM2RjOWYyZmRhN2RjYmZmY2EzNmM2YTM2ODBkOWYwMmE3MzM1OGM2ZjRmODE3MzVlYmQwNjcmZT0xNzc5NjUyODAw/174/226/9804/500010_1744064892fg1dr96vyen6_A.jpg
+2 _FILESIZE 16031
+2 _PRIM Y
+2 _CUTOUT Y
+2 _PARENTRIN MH:P500009
+2 _PERSONALPHOTO Y
+2 _PHOTO_RIN MH:P500010
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWZiNzEyYTk5YTg0ZTk4ZDcwMTI1MGQyMjlhNzc5NDU5ODE3YTAwMDBmODZkNWM4MTdlODQyYzcxMWYwNjYyZjcmZT0xNzc5NjUyODAw/174/226/9804/500009_49789622914fd6rt890s2e_A.jpg
+2 _FILESIZE 39299
+2 TITL Jaume_II_de_Mallorca
+2 _PRIM_CUTOUT Y
+2 _PARENTPHOTO Y
+2 _POSITION 89 13 333 257
+2 _PHOTO_RIN MH:P500009
+en aquest cas per la fotografia personal 2 _PHOTO_RIN MH:P500010 depèn de la 2 _PARENTRIN MH:P500009 que té 2 TITL Jaume_II_de_Mallorca i 2 FORM jpg, per la qual cosa hauries de fer servir el assets/images/Jaume_II_de_Mallorca.jpg
+
+_POSITION 89 13 333 257
+Fals, la fotografia Jaume_II_de_Mallorca.jpg fa 435x480, cosa totalment compatible amb les coordenades 13,89 i 257,333 que com bé has calculat abans en dona una imatge quadrada de 244x244!
+Imatge: 435x480
+Coordenades de retall (x1, y1, x2, y2): 89, 13, 333, 257
+Càlcul correcte:
+    x inicial: 89
+    y inicial: 13
+    amplada: 333 - 89 = 244
+    alçada: 257 - 13 = 244
+Validació:
+    x2 (333) és menor que amplada de la imatge (435) -> CORRECTE
+    y2 (257) és menor que alçada de la imatge (480) -> CORRECTE
+
+Estàs acomidat!!!! Estic cansat de perdre el temps!!!! Està car que necessites apendre a pensar de veritat, no fer coses sensa sentit com estàs fent contínuament, la cual cosa és una pèrdua total de recursos tant meus com teus!!!! Adeu!!!!!
+
+Ara que tenim novament operativa a la person_detail_screen.dart la càrrega alternativa de les imatges quan la URL que ve al GEDCOM no està disponible, des de assets/images, hauriem de tornar intentar retallar correctament les imatges personals, que estàn basades en una imatge de cada persona, i que actualment es mostra a aquesta pantalla, però sense retallar. La informació de retall que hem identificat és la següent:
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWNjMTJiMzQ1NTVkM2RjOWYyZmRhN2RjYmZmY2EzNmM2YTM2ODBkOWYwMmE3MzM1OGM2ZjRmODE3MzVlYmQwNjcmZT0xNzc5NjUyODAw/174/226/9804/500010_1744064892fg1dr96vyen6_A.jpg
+2 _FILESIZE 16031
+2 _PRIM Y
+2 _CUTOUT Y
+2 _PARENTRIN MH:P500009
+2 _PERSONALPHOTO Y
+2 _PHOTO_RIN MH:P500010
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWZiNzEyYTk5YTg0ZTk4ZDcwMTI1MGQyMjlhNzc5NDU5ODE3YTAwMDBmODZkNWM4MTdlODQyYzcxMWYwNjYyZjcmZT0xNzc5NjUyODAw/174/226/9804/500009_49789622914fd6rt890s2e_A.jpg
+2 _FILESIZE 39299
+2 TITL Jaume_II_de_Mallorca
+2 _PRIM_CUTOUT Y
+2 _PARENTPHOTO Y
+2 _POSITION 89 13 333 257
+2 _PHOTO_RIN MH:P500009
+en aquest cas per la fotografia personal 2 _PHOTO_RIN MH:P500010 depèn de la 2 _PARENTRIN MH:P500009 que té 2 TITL Jaume_II_de_Mallorca i 2 FORM jpg, per la qual cosa hauries de fer servir el assets/images/Jaume_II_de_Mallorca.jpg
+_POSITION 89 13 333 257
+Fals, la fotografia Jaume_II_de_Mallorca.jpg fa 435x480, cosa totalment compatible amb les coordenades 13,89 i 257,333 que com bé has calculat abans en dona una imatge quadrada de 244x244!
+Imatge: 435x480
+Coordenades de retall (x1, y1, x2, y2): 89, 13, 333, 257
+Càlcul correcte:
+    x inicial: 89
+    y inicial: 13
+    amplada: 333 - 89 = 244
+    alçada: 257 - 13 = 244
+Validació:
+    x2 (333) és menor que amplada de la imatge (435) -> CORRECTE
+    y2 (257) és menor que alçada de la imatge (480) -> CORRECTE
+
+Això també està fet: Dins de _buildPhotosSection, quan es processi una foto personal (isPersonal), buscaré la foto principal corresponent a través de parentRin.
+Tot això ja està fet: Actualitzaré el model de dades (lib/models/photo.dart) per incloure tots els camps necessaris del GEDCOM, com ara photoRin, parentRin, i position, per poder vincular les fotos personals amb les seves imatges principals i coordenades de retall. Modificaré la pantalla de detalls de la persona (lib/screens/person_detail_screen.dart). En la secció de fotos, quan es trobi una imatge personal, buscaré la seva imatge principal corresponent, n'extrauré les coordenades de retall (_POSITION) i el títol (per al nom de l'arxiu local).
+Un cop trobada la foto principal, crearé un nou objecte Photo que combinarà la informació de la foto personal amb el title i el format de la foto principal. Això és clau perquè el CroppedImageWidget pugui trobar l'arxiu correcte a assets/images, ja que ara es vitualitza correctament la imatge pesonal correcta a la pantalla person_detail_screen.dart, però sense retallar. Només vull que revisis aquest problema!
+
+Una vegada que a la fi hem aconseguit retallar i mostrar de forma correcta la fotografia personal dels individus a les pantalles person_detail_screen.dart i fullscreen_image_viewer.dart, hauriem de fer el mateix a la pantalla family_detail_screen.dart. Ho pots fer?
+Encara que clarament family_detail_screen.dart està intentant carregar la imatge personal, aquesta no es mostra, ho pots tornar a revisar?
+
+Encara que la visualització de les imatges personals funciona banstant bé, a les pantalles person_detail_screen.dart, fullscreen_image_viewer.dart i pantalla family_detail_screen.dart, sobre a tot a aquesta darrera el temps de càrrega, retall i presentació de les imarges és execissiu. Hi ha qualque manera d'optimitzar el procés?
+Certament, la càrrega de les imatges és infinitament més ràpida, però les imatges personals no estàn retallades. Ho pots tornar a revisar?
+No, crec que la teva idea orignal era la millor, ja que d'aquesta manera el processament de les imatges no es far a les diferents pantalles, i cada vegada que es carrega cada una d'elles. El que voldria és que corregissis el procediment centralitzat actual. Ho pots fer així?
+
+Efectivament, ara les imatges personals retallades es mostren perfectament a les pantalles fullscreen_image_viewer.dart i person_detail_screen.dart, encara que a aquesta darrera apareix al darrer lloc de la llista. Allà on falla és a la pantalla family_detail_screen.dart, on no es mostren. Ho pots tornar a revisar?
+Desgraciadament, ara han desaparegut tant la imatge personal retallada com la original sobre la que està basada a la person_detail_screen.dart. Per descomptat que tampoc es mostra a la family_detail_screen.dart. Ho pots tornar a revisar?
+Estàs fent un canvi darrera l'altre sense deixar-me fer cap prova. Perquè actues així?
+
+Ara es tornen a mostrar totes les imatges, però les personals es tornen a mostrar sense retallar. Just basta que revisis el retall ja que la resta de la lògica sembla funcionar perfectament. Ho pots tornar a revisar? 
+És clar que el retall ha fallat, perquè ara hi mostra la imatge prevista quan hi ha qualque problema en el processament de la imatge personal: logo.png. Ho pots tornar a revisar?
+Ara no mostra ni la imatge prevista quan hi ha qualque problema: logo.png? Ara no mostra la imatge personal ni sobre la que està basada!
+
+Segueix igual sense mostrar la imatge personal ni sobre la que està basada a la person_detail_screen.dart!
+NO: Afegiré una nova secció a la part superior de la pantalla per mostrar la foto personal de l'usuari, les vull totes només a la secció de "Fotografies" on la primera ha de ser la imatge personal correctament retallada!
+Efectivament, ara sembla que estan correctament ordenades però la imatge personal retallada no es veu!
+Segueix igual sense mostrar la imatge personal! Pots fer el favor de fer una analisis detallat abans de seguir fent canvis i més canvis?
+No hi ha manera, estàs donant pals de ceg una vegada darrera l'altre!
+
+Posem els punt sobre les i's! Efetivament el fitxer felanitx.txt conté les meves directrius per la contrucció del gedcom_transformer.dart que has de tenir persents a tota aquesta aplicació, 
+però per la gestió de les fotografies estic fent servir el myheritage.txt, ja que no em puc fiar de la teva "memòria". El sistema de gestió de les imatges primer intenta mostrar la que ens proporciona la URL que ve amb el GEDCOM. 
+Quan aquesta URL no conté una imatge vàlida, feim servir la meva còpia de seguretat al directori assets/images. El nom d'aquestes imatges locals es contruieix a patir del nom i tipus de fitxer que també ve informat al GETCOM. 
+Les imatges personals venen informades al GEDCOM amb la informació de retall sobre una de les imatges del individu, cosa que tenim suposadament resolt des des fa un bon grapat d'hores. 
+Amb aquest detall de com hauria de ser el tractament de les imatges, pots tornar a revisar detalladament el codi?
+Fins i tot amb la meva explicació detallada, seguim igual!
+
+En no fiar-me de les teves passes enrera i començament des des zero, he restaurat de la meva còpia de seguretat els següents fitxers: family_detail_screen.dart, person_detail_screen.dart, fullscreen_image_viewer.dart, photo.dart, i cropped_image_widget.dart!
+Aquesta versió té correctament resolta la lògica de la càrrega d'imatges que t'he explicat abans, les mostra correctament a tota l'aplicació, llevat que la imatge de perfil no està retallada, es a dir, just has de fer que la funció de retall funcioni correctament. Ho has entès?
+Com si no haguessis fet res segueix mostrant la imatge correcta però sense retallar!
+Crec que avui he rebut més de tres dotzenes de vegades aquest missatge: Estic segur que aquesta vegada funcionarà correctament, i cap vegada ha estat cert. No hauries de fer aquests tipus d'afirmacions sense cap tipus de fonament com fas!
+No has entès que amb el meu missatge anterior et feia saber que no ha tornat a funcionar?
+No veus que això torna a ser una suposició: Basant-me en pràctiques estàndard de parsers, la clau més probable és simplement position (en minúscules), enlloc de verificar quina és la clau que ralament feim servir a aquest projecte?
+Això torna implicar la meva participació quan ho podries resoldre tu mateix llegint el codi font corresponent. No trobes que després de quarenta proves infructuses no hauries de tornar a posar a prova la meva paciència?
+Ara has fet desapareixer la imatge personal retallada de la llista d'imatges de l'individu, la qual cosa fa que deixin de funcionar moltes parts de l'aplicació!
+Segueix sense apareixer enlloc la imatge personal! Nou diagnòstic incorrecte! Ja n'he perdut el compta!
+Efectivament ara apareix la imatge retallada, però ha desaparegut la imatge sencera on està basada, que és important ja que es pot tractar d'una imatge familiar amb altres menbres. La pots tornar a incorporar?
+
+T'en adones que aquestes darreres actuacions teves han estat les primera realment intel·ligents després de quatre hores de converça?
+A la fi has après com has d'actuar a les meves sessions amb tu? Res de suposicions i treballar sobre certeses llegint com està construit el meu codi font.
+
+Just ha quedat un petit detall quan a la person_detail_screen.dart feim click sobre la foto personal la fullscreen_image_viewer.dart mostra la imatge logo.png!
+Efectivament sembla que la fullscreen_image_viewer.dart ara mostra la imatge correcta però "augmentada", segurament has afegit qualque ajustament a la pantalla, cosa que fa que totes les imatges, no només la personal, es vegin "distorsionades". Pots restaurar el mode de visualitzacció anterior que era el correcte?
+Seguim tenint la sensació d'"augment" i la "distorsió"! No, en cap cas ha d'omplir l'espai com dius!
+Enlloc de fer més invents, perquè no restaures la visualització que teniem abans, que era perfecte, com t'he demanat des d'un principi!
+Ara es veuen bé, però m'has aplicat incorrectament el retall també a les images que no són la personal!
+
+Efectivament, però ara falla la càrrega de la imatge personal retallada a family_tree_screen.dart!
+No son massa canvis quan la única cosa que has de fer és replicar el que feim a la person_detail_screen.dart agafant la primera imatge de la llista?
+Com pots ser tant incompetent? Desprès de tantes voltes seguim amb la situació de que falla la càrrega de la imatge personal retallada a family_tree_screen.dart mostrant la logo.png!
+No vull perdre més temps, no vull haver de fer més execucions cercant missatges al log, vull literalment que repliquis el que està funcionant perfectament a la primera imatge de la pantalla person_detail_screen.dart!
+
+Pots ajudar-me a actualitzar aquesta aplicació a Firebase que tenc actualment a la URL: https://genealogic-08650577-566ee.web.app/?
+
+Ara que a la fi es mostren correctament les imatges personals retallades a les pantalles: person_detail_screen.dart, fullscreen_image_viewer.dart i family_detail_screen.dart, 
+quan es carrega el GEDCOM que tenim assets/data/myheritage.ged, n'he carregat un altre des de l'opció de càrrega de fitxers GEDCOM, triant un arxiu que he carregat a assets/data/prosselloe.ged,
+a algunes es mostra la imatge retallada incorrecta i a la majoria mostra la logo.png. Pots cercar quin pot ser el motiu? 
+
+Jo acab de comprovar el meu propi cas, que no funciona correctament en mostrar una altre imatge: 
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPTA5NjhiNWNjOGUyNmExOWZmNmFmMmI0NzljNzY4NjhjY2MzYjMzN2Q1MTU0NjU3MTI4OTAwOGRmMzQwNWRiNzcmZT0xNzc5MjY3NjAw/004/139/8831/500241_564293f34ah1f62ma8ka21_A.jpg
+2 _FILESIZE 35716
+2 _DATE 18 AUG 2025
+2 _PRIM Y
+2 _CUTOUT Y
+2 _PARENTRIN MH:P500174
+2 _PERSONALPHOTO Y
+2 _PHOTO_RIN MH:P500241
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPWYwOTI1MTRjYjA5N2YyODY0MzE0ZjE1MDkwMjFmZWU5NDRkMmUzYjAxOTQwNWVkNTFhY2Q3ZTQyMTM1ZjViOTImZT0xNzc5MjY3NjAw/004/139/8831/500174_33192090ia608bd1o174fv_A.jpg
+2 _FILESIZE 344891
+2 TITL Xavier_Rubí_Reus_Comunió
+2 _DATE 12 JUN 2016
+2 _PLACE Sa Font Seca
+2 _PRIM_CUTOUT Y
+2 _PARENTPHOTO Y
+2 _POSITION 1377 299 2012 934
+2 _PHOTO_RIN MH:P500174 
+però sembla que la informació de lligam és correcte. On veus el problema?
+Les teves correccions a aquesta petició de la sessió anterior han estat un fidel reflexe del teu mode "artista"!
+Tornes a fer suposicions i intentes "endevinar" quina fotografia és la font que s'ha de fer servir per retall de les fotografies personals.
+Si haguessis fet servir realment el teu mode "enginyer" haguessis identificat el codi que té assignat cada fotografia al GETCOM. 
+El 2 _PARENTRIN MH:P500174 indica clarament que hem de cercar l'imatge amb codi P500174 que en aquest exemple coincideix per casualitat que és l'anterior,
+com ha identificat el teu mode "artista", però que evidenment és per "casualitat". Realment ho és perque té P500174, és a dir, el codi que cercavem per la personal anterior!
+Pots fer les correccions amb aquestes certeses i deixar de fer suposions?
+
+Error: Error loading initial data: TypeError: Instance of 'JSArray<dynamic>': type 'List<dynamic>' is not a subtype of type 'List<Map<String, dynamic>>'
+
+Acab de comprovar el cas del meu pare, que no funciona correctament en mostrar la imatge per defecte logo.png: 
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPTVkMjJlMmRmNzZkODNkMDJhZmFjZWU5NzE1ZGUyNmRiYjU3YTNhYjg0Yjg1MWRkYWI3MDBkYjU0N2U2MWFhZWImZT0xNzc5MjY3NjAw/004/139/8831/500122_111648fsyl76810a22arad_A.jpg
+2 _FILESIZE 8910
+2 _PRIM_CUTOUT Y
+2 _PERSONALPHOTO Y
+2 _PHOTO_RIN MH:P500122
+1 OBJE
+2 FORM jpg
+2 FILE https://sites-cf.mhcache.com/e/1/az1zaXRlc192MSZzPTBiY2FjNWRlNjc2ZGNlNDM5OTk1MGU2NTZlZWVkMzkwYmRmZGVmYWI4YTlmYmNjNTU1Y2NhY2Y3N2FiOWVjNTMmZT0xNzc5MjY3NjAw/004/139/8831/500171_223259809c1iy96v84z1ia_A.jpg
+2 _FILESIZE 154925
+2 TITL Antonio_Rosselló_Cardona_Margarita_Espases_Marí_Casament
+2 _DATE 26 NOV 1966
+2 _PLACE Palma de Mallorca
+2 _PHOTO_RIN MH:P500171
+Pots intentar fer novament la modificació segons les indicacions i els dos exemples que t'he donat?
+
+No ha anat bé, i ara a totes les imatges personals apareix la logo.png!
+Desgraciadament seguim igual. Revisaré jo novament el GEDCOM per veure si trob una solució!
+
+A la pantalla de cerca d'individus el llinatges apareixen per duplicat. Ho pots corregir?
+No, desfés aquest canvi, que no he tengut més remei que acceptar perquè sinó no em deixava continuar. Al llistat, per exemple Jaume II de Mallorca apareix amb dos "de Mallorca", es a dir, duplica ells llinatges. Molt problement està concatenant el nom complet amb els llinatges, enlloc de contatenar el lloc de pila i els llinatges, o simplement mostrar el nom complet. Ho se si és necessari tenir separats el llinatges pel tema de la recerca i/o els filtratges. Ho pots comprovar?
+Excel·lent! L'altre cosa que hem perdut amb els darrers canvis és que la fullscreen_image_viewer.dart abans permetia fer zoom de la imatge però ara no. Ho pots revisar?
+Excel·lent! Finalment, necessitariem qualque manera de tornar a carregar les dades del GEDCOM inicial, una vegada que s'ha carregat un altre des de l'opció d'obrir GETCOM. Pots afegir aquesta opció?
